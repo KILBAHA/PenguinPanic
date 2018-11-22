@@ -1,6 +1,6 @@
 # =============================================================================
 # """
-# Penguin Game
+# Penguin Panic!
 # """
 # =============================================================================
 
@@ -33,9 +33,12 @@ Colour Definitions
 """
 black = (0,0,0) # takes RGB params
 white = (255,255,255)
-red = (255,0,0)
-green = (0,255,0)
-blue = (0,0,255)
+red = (200,0,0)
+bright_red = (255,0,0)
+green = (0,200,0)
+bright_green = (0,255,0)
+blue = (0,0,200)
+bright_blue = (0,0,255)
 
 """
 Define Clock:
@@ -72,60 +75,137 @@ bkgd = pygame.transform.scale(bkgd,(800,600))
 y_bk = 0 
 
 """
+For printing text to screen - stole from tutorial, not sure how works
+"""
+
+def text_objects(text, font):
+    textSurface = font.render(text, True, black)
+    return textSurface, textSurface.get_rect()
+
+
+"""
+Creating the intro screen:
+"""
+def quitgame():
+    pygame.quit()
+    quit()
+
+def button(msg,x,y,w,h,ac,ic,fn=None): # add parameter for text
+    
+    mouse = pygame.mouse.get_pos()
+    
+    click = pygame.mouse.get_pressed()
+    
+    if x + w > mouse[0] > x and y +h > mouse[1] > 450:
+        pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
+        if click[0] ==1 and fn != None:
+            fn()
+    else:
+        pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
+    
+    smallText = pygame.font.Font("freesansbold.ttf", 20)
+    textSurf, textRect = text_objects(msg, smallText)
+    textRect.center = ( (x + (w/2)), y + (h/2) )
+    gameDisplay.blit(textSurf, textRect)
+
+
+def intro_screen():
+    intro = True
+    
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        
+        gameDisplay.fill(white)
+        
+        largeText = pygame.font.Font ('freesansbold.ttf', 100)
+        TextSurf, TextRect = text_objects("Penguin Panic!", largeText)
+        TextRect.center = ((display_width * 0.5),(display_height * 0.5))
+        gameDisplay.blit(TextSurf, TextRect)
+        
+        button("Play",150,450,150,50,green,bright_green,game_loop) # x,y,w,h,ac,ic,fn
+        
+        button("Quit",550,450,150,50,red,bright_red,quitgame)
+        
+        button("Instructions",350, 520, 150, 50, blue, bright_blue)
+        
+        pygame.display.update()
+        clock.tick(15)
+
+
+
+
+"""
 Create the gameloop:
 """
-isJump = False
-initial_jc = 13
-JumpCount = initial_jc
 
+def game_loop():
 
-exit = False
+    """
+    Initialise variables:
+    """
 
-gameDisplay.fill(white)
-
-while exit == False:
-    for event in pygame.event.get(): # for every event the user inputs:
-        if event.type == pygame.QUIT: # if someone clicks the red x in the corner
-            exit = True #leave this loop, let them quit pygame
-            
-            
-            
-    keys = pygame.key.get_pressed()
+    x = (display_width *0.0001) # initialise x and y (relative to display ) of penguin
+    y = (display_height * 0.75)
     
-    if not (isJump):
-        if keys[pygame.K_SPACE]:
-            isJump = True
+    
+    isJump = False
+    initial_jc = 13
+    JumpCount = initial_jc
+
+
+    exit = False
+    
+    
+    while exit == False:
+        for event in pygame.event.get(): # for every event the user inputs:
+            if event.type == pygame.QUIT: # if someone clicks the red x in the corner
+                exit = True #leave this loop, let them quit pygame
+                
+                
+                
+        keys = pygame.key.get_pressed()
         
-    else:
-        if JumpCount >= -initial_jc:
-            neg = 1
-            if JumpCount < 0:
-                neg = -1
-            y -= (JumpCount **2) * 0.25 * neg
-            JumpCount -=1
+        if not (isJump):
+            if keys[pygame.K_SPACE]:
+                isJump = True
+            
         else:
-            isJump = False
-            JumpCount = initial_jc
-                  
-        
-        
-    """
-    Attempt at making a scrolling background - Lydia, you might want to use this:
-    """
-#    rel_y_bk = y_bk % bkgd.get_rect().height # modulo division of y position by height - 
-#    
-#    gameDisplay.blit(bkgd, (0,rel_y_bk - bkgd.get_rect().height))
-#    if rel_y_bk == h:
-#        gameDisplay.blit(bkgd, (0,rel_y_bk))
-#    y_bk += 1
-    gameDisplay.fill(white) # set the background to white
-        
-    penguin(x,y)
-        
-        
-    pygame.display.update()
-        
-    clock.tick(60)
+            if JumpCount >= -initial_jc:
+                neg = 1
+                if JumpCount < 0:
+                    neg = -1
+                y -= (JumpCount **2) * 0.25 * neg
+                JumpCount -=1
+            else:
+                isJump = False
+                JumpCount = initial_jc
+                      
+            
+            
+        """
+        Attempt at making a scrolling background - Lydia, you might want to use this:
+        """
+    #    rel_y_bk = y_bk % bkgd.get_rect().height # modulo division of y position by height - 
+    #    
+    #    gameDisplay.blit(bkgd, (0,rel_y_bk - bkgd.get_rect().height))
+    #    if rel_y_bk == h:
+    #        gameDisplay.blit(bkgd, (0,rel_y_bk))
+    #    y_bk += 1
+        gameDisplay.fill(white) # set the background to white
+            
+        penguin(x,y)
+            
+            
+        pygame.display.update()
+            
+        clock.tick(60)
+
+intro_screen()
+
+game_loop()
         
 pygame.quit()
 quit
