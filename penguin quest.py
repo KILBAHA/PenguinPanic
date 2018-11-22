@@ -9,7 +9,7 @@ Import variables
 """
 
 import pygame
-
+import random
 """
 Initiate Pygame
 """
@@ -74,6 +74,11 @@ bkgd = pygame.image.load("shitbackground.jpg")
 bkgd = pygame.transform.scale(bkgd,(800,600))
 y_bk = 0 
 
+
+def create_enemy(enemy_x, enemy_y, enemy_w, enemy_h, colour):
+    pygame.draw.rect(gameDisplay, colour, [enemy_x, enemy_y, enemy_w, enemy_h])
+
+
 """
 For printing text to screen - stole from tutorial, not sure how works
 """
@@ -84,11 +89,15 @@ def text_objects(text, font):
 
 
 """
-Creating the intro screen:
+Special Quit game function - used for button:
 """
 def quitgame():
     pygame.quit()
     quit()
+
+"""
+Function to generate buttons
+"""
 
 def button(msg,x,y,w,h,ac,ic,fn=None): # add parameter for text
     
@@ -154,11 +163,22 @@ def game_loop():
     isJump = False
     initial_jc = 13
     JumpCount = initial_jc
+    
+    enemy_startx = display_width
+    enemy_x = enemy_startx
+    enemy_starty = 500
+    enemy_speed = 12
+    enemy_width = 100
+    enemy_height = 100
+    
+    dodged = 0
 
 
     exit = False
     
-    
+    """
+    Main Loop:
+    """
     while exit == False:
         for event in pygame.event.get(): # for every event the user inputs:
             if event.type == pygame.QUIT: # if someone clicks the red x in the corner
@@ -196,12 +216,27 @@ def game_loop():
     #    y_bk += 1
         gameDisplay.fill(white) # set the background to white
             
+        create_enemy(enemy_x, enemy_starty, enemy_width, enemy_height, blue)
+        
+        enemy_x -= enemy_speed
+        
         penguin(x,y)
+        
+        if enemy_x > x and enemy_x < x + w:
+            #print("xcheck")
+            if y > enemy_starty or y > enemy_starty + enemy_height and y + h > enemy_starty or y + h > enemy_starty + enemy_height:
+                print("crash")
+                pass
+        
+        if enemy_x < -enemy_width:
+            dodged = dodged + 1
+            print ("dodged {}".format(dodged))
+            enemy_x = enemy_startx
             
             
         pygame.display.update()
             
-        clock.tick(60)
+        clock.tick(10)
 
 intro_screen()
 
