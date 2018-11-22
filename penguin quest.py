@@ -46,18 +46,16 @@ clock = pygame.time.Clock()
 Initialise variables:
 """
 
-x = (display_width *0.5)
-y = (display_height * 0.6)
+x = (display_width *0.0001) # initialise x and y (relative to display ) of penguin
+y = (display_height * 0.75)
 
-
-x_change = 0 # initialise x_change - we need this to move left/right
 
 """
 Create the penguin:
 """
-penguinPic = pygame.image.load('shitpenguin.png')
+penguinPic = pygame.image.load('BasicPenguin.png')
 
-w = 100
+w = 250
 h = 250
 
 penguinPic = pygame.transform.scale(penguinPic,(w,h))
@@ -76,37 +74,51 @@ y_bk = 0
 """
 Create the gameloop:
 """
+isJump = False
+initial_jc = 13
+JumpCount = initial_jc
+
+
 exit = False
 
+gameDisplay.fill(white)
 
 while exit == False:
     for event in pygame.event.get(): # for every event the user inputs:
         if event.type == pygame.QUIT: # if someone clicks the red x in the corner
             exit = True #leave this loop, let them quit pygame
+            
+            
+            
+    keys = pygame.key.get_pressed()
     
-        if event.type == pygame.KEYDOWN: # if they press a key down
-            if event.key == pygame.K_LEFT: # if that key was the left key
-                x_change = -5 # change x_change by -5
-            elif event.key == pygame.K_RIGHT: # if that key was the right key
-                x_change = +5 # change x_change by +5
-                
-                
-        if event.type == pygame.KEYUP: # if they release a key
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT: # if its the right/left key
-                x_change = 0 # x_change becomes 0
-                
-    x += x_change # x_coordinate of penguin changes by x_change
+    if not (isJump):
+        if keys[pygame.K_SPACE]:
+            isJump = True
+        
+    else:
+        if JumpCount >= -initial_jc:
+            neg = 1
+            if JumpCount < 0:
+                neg = -1
+            y -= (JumpCount **2) * 0.25 * neg
+            JumpCount -=1
+        else:
+            isJump = False
+            JumpCount = initial_jc
+                  
+        
         
     """
-    Start drawing to the window
+    Attempt at making a scrolling background - Lydia, you might want to use this:
     """
-    rel_y_bk = y_bk % bkgd.get_rect().height # modulo division of y position by height - 
-    
-    gameDisplay.blit(bkgd, (0,rel_y_bk - bkgd.get_rect().height))
-    if rel_y_bk == h:
-        gameDisplay.blit(bkgd, (0,rel_y_bk))
-    y_bk += 1
-    #gameDisplay.fill(white) # set the background to white
+#    rel_y_bk = y_bk % bkgd.get_rect().height # modulo division of y position by height - 
+#    
+#    gameDisplay.blit(bkgd, (0,rel_y_bk - bkgd.get_rect().height))
+#    if rel_y_bk == h:
+#        gameDisplay.blit(bkgd, (0,rel_y_bk))
+#    y_bk += 1
+    gameDisplay.fill(white) # set the background to white
         
     penguin(x,y)
         
