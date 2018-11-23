@@ -56,10 +56,10 @@ y = (display_height * 0.75)
 """
 Create the penguin:
 """
-penguinPic = pygame.image.load('BasicPenguin.png')
+penguinPic = pygame.image.load('Resized Penguin.png')
 
-w = 250
-h = 250
+w = 150
+h = 150
 
 penguinPic = pygame.transform.scale(penguinPic,(w,h))
 
@@ -166,7 +166,7 @@ def game_loop():
     
     enemy_startx = display_width
     enemy_x = enemy_startx
-    enemy_starty = 500
+    enemy_starty = 490
     enemy_speed = 12
     enemy_width = 100
     enemy_height = 100
