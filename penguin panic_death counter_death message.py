@@ -5,7 +5,7 @@ Import variables
 """
 import time
 import pygame
-import random
+
 """
 Initiate Pygame
 """
@@ -47,7 +47,7 @@ Initialise variables:
 
 x = (display_width *0.0001) # initialise x and y (relative to display ) of penguin
 y = (display_height * 0.75)
-
+ 
 
 """
 Create the penguin:
@@ -67,10 +67,10 @@ def penguin(x,y):
 """
 Create the background:
 """
-bkgd = pygame.image.load("shitbackground.png")
+#bkgd = pygame.image.load("shitbackground.png")
 
-bkgd = pygame.transform.scale(bkgd,(800,600))
-y_bk = 0 
+#bkgd = pygame.transform.scale(bkgd,(800,600))
+#y_bk = 0 
 
 
 def create_enemy(enemy_x, enemy_y, enemy_w, enemy_h, colour):
