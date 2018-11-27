@@ -208,14 +208,18 @@ def game_loop():
         """
         Attempt at making a scrolling background - Lydia, you might want to use this:
         """
+        bkgd = pygame.image.load("bg2.jpg").convert()
+        bgx = 0 
     #    rel_y_bk = y_bk % bkgd.get_rect().height # modulo division of y position by height - 
     #    
     #    gameDisplay.blit(bkgd, (0,rel_y_bk - bkgd.get_rect().height))
     #    if rel_y_bk == h:
     #        gameDisplay.blit(bkgd, (0,rel_y_bk))
     #    y_bk += 1
-        gameDisplay.fill(white) # set the background to white
-            
+    #    gameDisplay.fill(white)  set the background to white
+        gameDisplay.blit(bkgd, (bgx, 0))
+        bgx -=1
+        
         create_enemy(enemy_x, enemy_starty, enemy_width, enemy_height, blue)
         
         enemy_x -= enemy_speed
@@ -236,7 +240,7 @@ def game_loop():
             
         pygame.display.update()
             
-        clock.tick(10)
+        clock.tick(30)
 
 intro_screen()
 
