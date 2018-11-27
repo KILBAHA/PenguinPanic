@@ -24,6 +24,8 @@ bright_green = (0,255,0)
 blue = (0,0,200)
 bright_blue = (0,0,255)
 
+pause = False
+
 #define clock
 clock = pygame.time.Clock()
 
@@ -85,6 +87,32 @@ class Seal(Enemy):
 """
 class Text():
 """
+def quitgame():
+    pygame.quit()
+    quit()
+    
+"""
+Function to generate buttons
+"""
+
+def button(msg,x,y,w,h,ac,ic,fn=None): # add parameter for text
+    
+    mouse = pygame.mouse.get_pos()
+    
+    click = pygame.mouse.get_pressed()
+    
+    if x + w > mouse[0] > x and y +h > mouse[1] > 450:
+        pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
+        if click[0] ==1 and fn != None:
+            fn()
+    else:
+        pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
+    
+    smallText = pygame.font.Font("freesansbold.ttf", 20)
+    textSurf, textRect = text_objects(msg, smallText)
+    textRect.center = ( (x + (w/2)), y + (h/2) )
+    gameDisplay.blit(textSurf, textRect)
+
 def text_objects(text, font):
     textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
@@ -111,7 +139,7 @@ def Death():
     pygame.display.update()
     time.sleep(2)
     if Penguin.lives == 0:
-        game_loop()
+        intro_screen()
 
   
 def checkoffscreen():
@@ -127,14 +155,74 @@ def checkcolision():
             Penguin.lives -= 1
             Death()
 
+# =============================================================================
+# def unpause():
+#     global pause
+#     pause = False
+# 
+#   
+# def paused():
+# 
+#     
+#     while pause:
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 pygame.quit()
+#                 quit()
+#         
+#         gameDisplay.fill(white)
+#         
+#         largeText = pygame.font.Font ('freesansbold.ttf', 100)
+#         TextSurf, TextRect = text_objects("Paused", largeText)
+#         TextRect.center = ((display_width * 0.5),(display_height * 0.5))
+#         gameDisplay.blit(TextSurf, TextRect)
+#         
+#         button("Continue",150,450,150,50,green,bright_green,unpause) # x,y,w,h,ac,ic,fn
+#         
+#         button("Quit",550,450,150,50,red,bright_red,quitgame)
+#         
+#         pygame.display.update()
+#         clock.tick(15)
+# =============================================================================
 
 def draw_to_screen():
     Background.Scroll(Background)
+    #button("Pause",400,450,150,50,green,bright_green,paused)
     Seal.createSeal(Seal)
     Seal.x -= Seal.speed
     Penguin.display(Penguin,Penguin.x,Penguin.y)
     checkcolision()
     checkoffscreen()
+
+def intro_screen():
+    intro = True
+    
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        
+        gameDisplay.fill(white)
+        
+        largeText = pygame.font.Font ('freesansbold.ttf', 100)
+        TextSurf, TextRect = text_objects("Penguin Panic!", largeText)
+        TextRect.center = ((display_width * 0.5),(display_height * 0.5))
+        gameDisplay.blit(TextSurf, TextRect)
+        
+        button("Play",150,450,150,50,green,bright_green,game_loop) # x,y,w,h,ac,ic,fn
+        
+        button("Quit",550,450,150,50,red,bright_red,quitgame)
+        
+        button("Instructions",350, 520, 150, 50, blue, bright_blue)
+        
+        pygame.display.update()
+        clock.tick(15)
+
+
+
+
+
 
 
 """
@@ -142,6 +230,7 @@ Create the gameloop:
 """
 
 def game_loop():
+    global pause
     exit = False
     
     isJump = False
@@ -153,7 +242,7 @@ def game_loop():
             if event.type == pygame.QUIT:
                 exit = True
                 
-        keys = pygame.key.get_pressed()
+        keys = pygame.key.get_pressed()        
         
         if not (isJump):
             if keys[pygame.K_SPACE]:
@@ -175,7 +264,7 @@ def game_loop():
         clock.tick(30)
                 
 
-game_loop()
+intro_screen()
 pygame.quit()
 quit
     
