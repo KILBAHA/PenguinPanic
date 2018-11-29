@@ -24,12 +24,17 @@ bright_green = (0,255,0)
 blue = (0,0,200)
 bright_blue = (0,0,255)
 
-pause = False
+#pause = False
 
 #define clock
 clock = pygame.time.Clock()
 
-class Background():
+"""
+Class Definitions
+"""
+
+class Background(): 
+    
     bkgd = pygame.image.load("bg2.jpg").convert()
     bgx = 0
     
@@ -39,12 +44,12 @@ class Background():
 
 class Penguin():
     
-    penguinPic = pygame.image.load('Resized Penguin.png')
+    penguinPic = pygame.image.load('Resized Penguin.png') # variable for penguin sprite
     
     w = 150
     h = 150
     
-    penguinPic = pygame.transform.scale(penguinPic,(w,h))
+    penguinPic = pygame.transform.scale(penguinPic,(w,h)) #transform penguin sprite
     
     lives = 3
     
@@ -66,27 +71,52 @@ class Penguin():
 class Enemy():
     
     dodged = 0
-    
-    def createEnemy():
-        pass
 
 class Seal(Enemy):
     
     startx = display_width
-    x = startx
     starty = display_height - 110
-    speed = 12
     width = 100
     height = 100
     
-    def createSeal(self):
+    def __init__(self, x, speed ):
+        self.x = x
+        self.speed = speed
+        
+    def drawseal(self):
         pygame.draw.rect(gameDisplay, blue, [self.x, self.starty, self.width, self.height])
         
-    def reset_sealx():
-        Seal.x = Seal.startx
+    def reset_sealx(self):
+        self.x = self.startx
+        
+    def checkoffscreen(self):
+    #global my_seal
+    
+        if self.x <- self.width:
+            Enemy.dodged+=1
+            print ("dodged{}".format(Enemy.dodged))
+            self.reset_sealx()
+      
+    def checkcolision(self):
+    #global my_seal
+    
+        if self.x > player.x and self.x < player.x + player.w:
+            #print("xcheck")
+            if player.y > self.starty or player.y > self.starty + self.height and player.y + player.h > self.starty or player.y + player.h > self.starty + self.height:
+                player.lives -= 1
+                self.reset_sealx()
+                Death()
 """
 class Text():
 """
+
+"""
+Create Objects from class:
+"""
+my_seal = Seal(display_width,12) # Syntax - Class has capital, object is lowercase
+slow_seal=Seal(display_width,5)
+player = Penguin(Penguin.x,Penguin.y) 
+
 def quitgame():
     pygame.quit()
     quit()
@@ -128,32 +158,36 @@ def Death():
             if event.type == pygame.QUIT:
                 break
             
-    Seal.reset_sealx()
+    #my_seal.reset_sealx()
 
-    if Penguin.lives >=2:
-        message_display("You died, {} lives remaining".format(Penguin.lives))
-    elif Penguin.lives == 1:
+    if player.lives >=2:
+        message_display("You died, {} lives remaining".format(player.lives))
+    elif player.lives == 1:
         message_display("You died, 1 life remaining")
     else:
         message_display("Game Over")
     pygame.display.update()
     time.sleep(2)
-    if Penguin.lives == 0:
+    if player.lives == 0:
         intro_screen()
 
   
-def checkoffscreen():
-    if Seal.x <-Seal.width:
-        Enemy.dodged+=1
-        print ("dodged{}".format(Seal.dodged))
-        Seal.reset_sealx()
-      
-def checkcolision():
-    if Seal.x > Penguin.x and Seal.x < Penguin.x + Penguin.w:
-        #print("xcheck")
-        if Penguin.y > Seal.starty or Penguin.y > Seal.starty + Seal.height and Penguin.y + Penguin.h > Seal.starty or Penguin.y + Penguin.h > Seal.starty + Seal.height:
-            Penguin.lives -= 1
-            Death()
+#def checkoffscreen():
+#    global my_seal
+#    
+#    if my_seal.x <- my_seal.width:
+#        Enemy.dodged+=1
+#        print ("dodged{}".format(Enemy.dodged))
+#        my_seal.reset_sealx()
+#      
+#def checkcolision():
+#    global my_seal
+#    
+#    if my_seal.x > player.x and my_seal.x < player.x + player.w:
+#        #print("xcheck")
+#        if player.y > my_seal.starty or player.y > my_seal.starty + my_seal.height and player.y + player.h > my_seal.starty or player.y + player.h > my_seal.starty + my_seal.height:
+#            player.lives -= 1
+#            Death()
 
 # =============================================================================
 # def unpause():
@@ -186,13 +220,20 @@ def checkcolision():
 # =============================================================================
 
 def draw_to_screen():
+    
+    global my_seal
+    
     Background.Scroll(Background)
     #button("Pause",400,450,150,50,green,bright_green,paused)
-    Seal.createSeal(Seal)
-    Seal.x -= Seal.speed
-    Penguin.display(Penguin,Penguin.x,Penguin.y)
-    checkcolision()
-    checkoffscreen()
+    my_seal.x -= my_seal.speed
+    slow_seal.x -= slow_seal.speed
+    my_seal.drawseal()
+    slow_seal.drawseal()
+    player.display(player.x,player.y)
+    my_seal.checkcolision()
+    slow_seal.checkcolision()
+    my_seal.checkoffscreen()
+    slow_seal.checkoffscreen()
 
 def intro_screen():
     intro = True
@@ -230,7 +271,7 @@ Create the gameloop:
 """
 
 def game_loop():
-    global pause
+    #global pause
     exit = False
     
     isJump = False
@@ -253,7 +294,7 @@ def game_loop():
                 neg = 1
                 if JumpCount < 0:
                     neg =-1
-                Penguin.y-= (JumpCount **2)*0.25 * neg
+                player.y-= (JumpCount **2)*0.25 * neg
                 JumpCount -=1
             else:
                 isJump=False
