@@ -264,8 +264,17 @@ def checkRock():
             pass
         else:
             projectiles.pop(projectiles.index(projectile))
-            
 
+def create_rock():
+     keys = pygame.key.get_pressed()        
+        
+     if keys[pygame.K_UP]:
+         if len(projectiles) < 5:
+             projectiles.append(Rock(player.x, player.y))
+
+def game_functions():
+    create_rock()
+    
 def draw_to_screen():
     
     
@@ -332,9 +341,9 @@ def game_loop():
                 
         keys = pygame.key.get_pressed()        
         
-        if keys[pygame.K_UP]:
-            if len(projectiles) < 5:
-                projectiles.append(Rock(player.x, player.y))
+        #if keys[pygame.K_UP]:
+         #   if len(projectiles) < 5:
+          #      projectiles.append(Rock(player.x, player.y))
         
         if not (isJump):
             if keys[pygame.K_SPACE]:
@@ -350,7 +359,7 @@ def game_loop():
             else:
                 isJump=False
                 JumpCount = initial_jc
-                
+        game_functions()
         draw_to_screen()
         pygame.display.update()
         clock.tick(30)
