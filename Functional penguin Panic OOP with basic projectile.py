@@ -78,17 +78,25 @@ class Rock():
     w = 30
     h = 30
     rockPic = pygame.transform.scale(rockPic,(w,h))
-    speed = 10
+    speed = 15
     
-    def __init__(self,x,y):
+    
+    def __init__(self,x,y,itc,tc):
         self.x = x
         self.y = y
-        
+        self.itc = itc #initial throw count
+        self.tc = tc # throw count
     def draw(self):
         gameDisplay.blit(self.rockPic,(self.x,self.y))
     
     def move_draw(self):
         self.x += self.speed
+        if self.tc >= -self.itc:
+            neg = 1
+            if self.tc < 0:
+                neg = -1
+            self.y -= (self.tc ** 2) * 0.3*neg
+            self.tc -= 1
         self.draw()
        
 class Enemy():
@@ -260,7 +268,7 @@ def paused():
 def checkRock():
     global projectiles
     for projectile in projectiles:
-        if projectile.x < 800:
+        if projectile.x < display_width and projectile.y < display_height:
             pass
         else:
             projectiles.pop(projectiles.index(projectile))
@@ -270,7 +278,7 @@ def create_rock():
         
      if keys[pygame.K_UP]:
          if len(projectiles) < 5:
-             projectiles.append(Rock(player.x, player.y))
+             projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
 
 def game_functions():
     create_rock()
