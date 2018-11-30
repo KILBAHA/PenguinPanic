@@ -117,15 +117,16 @@ class Bird(Enemy):
     
     
     def __init__(self,x,speed):
+        super(Bird, self).__init__()
         self.x = x
         self.speed = speed
-        super(Bird, self).__init__()
+        #super(Bird, self).__init__()
         self.images = []
         self.images.append(self.birdPic1)
         self.images.append(self.birdPic2)       
         self.index = 0
         self.image = self.images[self.index]
-        self.rect = pygame.Rect(100, 100, 100, 100)
+        self.rect = pygame.Rect(self.x, self.starty, 100, 100)
         
     def update(self):
         self.index += 1
@@ -189,6 +190,7 @@ my_seal = Seal(display_width,12) # Syntax - Class has capital, object is lowerca
 slow_seal=Seal(display_width + 500,12)
 player = Penguin(Penguin.x,Penguin.y) 
 my_bird = Bird(display_width+ 300, 12)
+my_group = pygame.sprite.Group(my_bird)
 
 def quitgame():
     pygame.quit()
@@ -280,8 +282,7 @@ def draw_to_screen():
     Background.Scroll(Background)
     button("Pause",400,450,150,50,green,bright_green,paused)
     player.display(player.x,player.y)
-    my_sprite = Bird()
-    my_group = pygame.sprite.Group(my_sprite)
+    #my_group = pygame.sprite.Group(my_bird)
     screen = pygame.display.set_mode()
     my_bird.move_draw_check()
     my_seal.move_draw_check()
