@@ -39,7 +39,7 @@ class Background():
     bgx = 0
     
     def Scroll(self):
-        gameDisplay.blit(self.bkgd, (self.bgx, 0))
+        gameDisplay.blit(self.bkgd, (self.bgx, 0)) #        gameDisplay.fill(bkgd)
         self.bgx -=1
 
 class Penguin():
@@ -102,12 +102,13 @@ class Enemy():
     
 class Bird(Enemy):
     
-    birdPic = pygame.image.load('Shitbird1.png')
-    
+    birdPic1 = pygame.image.load('ShitBird1.png')
+    birdPic2 = pygame.image.load('ShitBird2 (2).png')
     w = 100
     h = 100
     
-    birdPic = pygame.transform.scale(birdPic, (w,h))
+    birdPic1 = pygame.transform.scale(birdPic1, (w,h))
+    birdPic2 = pygame.transform.scale(birdPic2,(w,h))
     
     starty = display_height - 400
     
@@ -118,9 +119,44 @@ class Bird(Enemy):
     def __init__(self,x,speed):
         self.x = x
         self.speed = speed
+        super(Bird, self).__init__()
+        self.images = []
+        self.images.append(self.birdPic1)
+        self.images.append(self.birdPic2)       
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = pygame.Rect(100, 100, 100, 100)
+        
+    def update(self):
+        self.index += 1
+ 
+        #if the index is larger than the total images
+        if self.index >= len(self.images):
+            self.index = 0
+        
+        self.image = self.images[self.index]
         
     def draw(self):
         gameDisplay.blit(self.birdPic,(self.x,self.starty))
+        
+#class Bird(Enemy):
+#    def __init__(self):
+#        super(Bird, self).__init__()
+#        self.images = []
+#        self.images.append(pygame.image.load('ShitBird1.png'))
+#        self.images.append(pygame.image.load('ShitBird2 (2).png'))       
+#        self.index = 0
+#        self.image = self.images[self.index]
+#        self.rect = pygame.Rect(100, 100, 100, 100)
+#        
+#    def update(self):
+#        self.index += 1
+# 
+#        #if the index is larger than the total images
+#        if self.index >= len(self.images):
+#            self.index = 0
+#        
+#        self.image = self.images[self.index]
 
 
 class Seal(Enemy):
@@ -244,9 +280,16 @@ def draw_to_screen():
     Background.Scroll(Background)
     button("Pause",400,450,150,50,green,bright_green,paused)
     player.display(player.x,player.y)
+    my_sprite = Bird()
+    my_group = pygame.sprite.Group(my_sprite)
+    screen = pygame.display.set_mode()
     my_bird.move_draw_check()
     my_seal.move_draw_check()
     slow_seal.move_draw_check()
+    my_group.update()
+    gameDisplay.fill(Background.bkgd)
+    pygame.display.update()        
+    my_group.draw(screen)
     
 
 
@@ -275,12 +318,6 @@ def intro_screen():
         pygame.display.update()
         clock.tick(15)
 
-
-
-
-
-
-
 """
 Create the gameloop:
 """
@@ -292,6 +329,7 @@ def game_loop():
     isJump = False
     initial_jc = 13
     JumpCount = initial_jc
+
     
     while exit == False:
         for event in pygame.event.get():
@@ -314,7 +352,7 @@ def game_loop():
             else:
                 isJump=False
                 JumpCount = initial_jc
-                
+
         draw_to_screen()
         pygame.display.update()
         clock.tick(30)
