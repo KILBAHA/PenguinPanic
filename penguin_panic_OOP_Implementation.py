@@ -24,7 +24,7 @@ bright_green = (0,255,0)
 blue = (0,0,200)
 bright_blue = (0,0,255)
 
-pause = False
+#pause = False
 
 #define clock
 clock = pygame.time.Clock()
@@ -53,10 +53,6 @@ class Penguin():
     
     lives = 3
     
-    """
-    sort this shit out!:
-    """
-    
     x = (display_width *0.0001) # initialise x and y (relative to display ) of penguin
     y = (display_height * 0.75)
     
@@ -75,24 +71,42 @@ class Penguin():
 class Enemy():
     
     dodged = 0
-    startx = display_width
+
+class Seal(Enemy):
     
-    def reset_x(self):
+    startx = display_width
+    starty = display_height - 110
+    width = 100
+    height = 100
+    
+    def __init__(self, x, speed ):
+        self.x = x
+        self.speed = speed
+        
+    def drawseal(self):
+        pygame.draw.rect(gameDisplay, blue, [self.x, self.starty, self.width, self.height])
+        
+    def reset_sealx(self):
         self.x = self.startx
         
-    def checkoffscreen(self):    
+    def checkoffscreen(self):
+    #global my_seal
+    
         if self.x <- self.width:
             Enemy.dodged+=1
             print ("dodged{}".format(Enemy.dodged))
-            self.reset_x()
+            self.reset_sealx()
       
     def checkcolision(self):
-      
+    #global my_seal
+    
         if self.x > player.x and self.x < player.x + player.w:
+            #print("xcheck")
             if player.y > self.starty or player.y > self.starty + self.height and player.y + player.h > self.starty or player.y + player.h > self.starty + self.height:
                 player.lives -= 1
-                self.reset_x()
+                self.reset_sealx()
                 Death()
+<<<<<<< HEAD
     
     def move_draw_check(self):
         self.x -= self.speed
@@ -180,17 +194,23 @@ class Seal(Enemy):
         
     def draw(self): 
         gameDisplay.blit(self.sealPic,(self.x,self.starty))
+=======
+>>>>>>> parent of 9d33823... Factored out and added sprites
 """
 class Text():
 """
+
 """
 Create Objects from class:
 """
 my_seal = Seal(display_width,12) # Syntax - Class has capital, object is lowercase
-slow_seal=Seal(display_width + 500,12)
+slow_seal=Seal(display_width,5)
 player = Penguin(Penguin.x,Penguin.y) 
+<<<<<<< HEAD
 my_bird = Bird(display_width+ 300, 12)
 my_group = pygame.sprite.Group(my_bird)
+=======
+>>>>>>> parent of 9d33823... Factored out and added sprites
 
 def quitgame():
     pygame.quit()
@@ -232,6 +252,8 @@ def Death():
     for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 break
+            
+    #my_seal.reset_sealx()
 
     if player.lives >=2:
         message_display("You died, {} lives remaining".format(player.lives))
@@ -242,46 +264,68 @@ def Death():
     pygame.display.update()
     time.sleep(2)
     if player.lives == 0:
-        player.lives = Penguin.lives
         intro_screen()
 
   
+#def checkoffscreen():
+#    global my_seal
+#    
+#    if my_seal.x <- my_seal.width:
+#        Enemy.dodged+=1
+#        print ("dodged{}".format(Enemy.dodged))
+#        my_seal.reset_sealx()
+#      
+#def checkcolision():
+#    global my_seal
+#    
+#    if my_seal.x > player.x and my_seal.x < player.x + player.w:
+#        #print("xcheck")
+#        if player.y > my_seal.starty or player.y > my_seal.starty + my_seal.height and player.y + player.h > my_seal.starty or player.y + player.h > my_seal.starty + my_seal.height:
+#            player.lives -= 1
+#            Death()
 
-def unpause():
-    global pause
-    pause = False
- 
-   
-def paused():
-    global pause
-     
-    while pause:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-         
-        gameDisplay.fill(white)
-        
-        largeText = pygame.font.Font ('freesansbold.ttf', 100)
-        TextSurf, TextRect = text_objects("Paused", largeText)
-        TextRect.center = ((display_width * 0.5),(display_height * 0.5))
-        gameDisplay.blit(TextSurf, TextRect)
-        
-        button("Continue",150,450,150,50,green,bright_green,unpause) # x,y,w,h,ac,ic,fn
-        
-        button("Quit",550,450,150,50,red,bright_red,quitgame)
-        
-        pygame.display.update()
-        clock.tick(15)
-
+# =============================================================================
+# def unpause():
+#     global pause
+#     pause = False
+# 
+#   
+# def paused():
+# 
+#     
+#     while pause:
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 pygame.quit()
+#                 quit()
+#         
+#         gameDisplay.fill(white)
+#         
+#         largeText = pygame.font.Font ('freesansbold.ttf', 100)
+#         TextSurf, TextRect = text_objects("Paused", largeText)
+#         TextRect.center = ((display_width * 0.5),(display_height * 0.5))
+#         gameDisplay.blit(TextSurf, TextRect)
+#         
+#         button("Continue",150,450,150,50,green,bright_green,unpause) # x,y,w,h,ac,ic,fn
+#         
+#         button("Quit",550,450,150,50,red,bright_red,quitgame)
+#         
+#         pygame.display.update()
+#         clock.tick(15)
+# =============================================================================
 
 def draw_to_screen():
     
+    global my_seal
     
     Background.Scroll(Background)
-    button("Pause",400,450,150,50,green,bright_green,paused)
+    #button("Pause",400,450,150,50,green,bright_green,paused)
+    my_seal.x -= my_seal.speed
+    slow_seal.x -= slow_seal.speed
+    my_seal.drawseal()
+    slow_seal.drawseal()
     player.display(player.x,player.y)
+<<<<<<< HEAD
     #my_group = pygame.sprite.Group(my_bird)
     screen = pygame.display.set_mode()
     my_bird.move_draw_check()
@@ -293,6 +337,12 @@ def draw_to_screen():
     my_group.draw(screen)
     
 
+=======
+    my_seal.checkcolision()
+    slow_seal.checkcolision()
+    my_seal.checkoffscreen()
+    slow_seal.checkoffscreen()
+>>>>>>> parent of 9d33823... Factored out and added sprites
 
 def intro_screen():
     intro = True
