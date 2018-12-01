@@ -36,12 +36,17 @@ Class Definitions
 class Background(): 
     
     bkgd = pygame.image.load("bg2.jpg").convert()
-    bgx = 0
+    x = 0
     
     def Scroll(self):
-        gameDisplay.blit(self.bkgd, (self.bgx, 0))
-        self.bgx -=1
-        self.bgx = 0
+        rel_x = self.x % self.bkgd.get_rect().width
+        gameDisplay.blit(self.bkgd,(rel_x - self.bkgd.get_rect().width, 0))
+        
+        if rel_x <display_width:
+            gameDisplay.blit(self.bkgd,(rel_x,0))
+        self.x -=1
+
+
 class Penguin():
     
     penguinPic = pygame.image.load('Resized Penguin.png') # variable for penguin sprite
@@ -75,6 +80,7 @@ class Penguin():
                     self.JumpCount = self.initial_jc
         else:
             pass
+        
     def __init__(self,x,y):
         self.x = x
         self.y = y
@@ -308,9 +314,9 @@ def draw_to_screen():
     checkRock()
     #button("Pause",400,450,150,50,green,bright_green,paused)
     player.display(player.x,player.y)
-    #my_bird.move_draw_check()
-    #my_seal.move_draw_check()
-    #slow_seal.move_draw_check()
+    my_bird.move_draw_check()
+    my_seal.move_draw_check()
+    slow_seal.move_draw_check()
     
 
 

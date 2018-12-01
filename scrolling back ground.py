@@ -18,6 +18,7 @@ gameDisplay = pygame.display.set_mode((W, H))
 
 bkgd = pygame.image.load("bg2.jpg")
 x = 0
+#rel_x = x % bkgd.get_rect().width
 
 clock = pygame.time.Clock()  
  

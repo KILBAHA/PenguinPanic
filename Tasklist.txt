@@ -6,7 +6,7 @@ Functionality:
 	Bird - Swoop Y
 	Fix life counter/R
 	Projectiles/R
-	Background L
+	Implement Background L
 	Pause Y
 	Sound L
 	Intro/Instructions JPEG
