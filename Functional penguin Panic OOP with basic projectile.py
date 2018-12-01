@@ -11,7 +11,7 @@ pygame.init()
 #Set window
 display_height=600
 display_width=800
-gameDisplay= pygame.display.set_mode((display_width, display_height))
+gameDisplay= pygame.display.set_mode((display_width, display_height)) # set display as gameDisplay
 pygame.display.set_caption('Penguin Panic!')
 
 #Set colours
@@ -24,7 +24,7 @@ bright_green = (0,255,0)
 blue = (0,0,200)
 bright_blue = (0,0,255)
 
-pause = False
+pause = False  # required for pause function
 
 #define clock
 clock = pygame.time.Clock()
@@ -35,16 +35,16 @@ Class Definitions
 
 class Background(): 
     
-    bkgd = pygame.image.load("bg2.jpg").convert()
-    x = 0
+    bkgd = pygame.image.load("bg2.jpg").convert() 
+    x = 0 # initial x
     
     def Scroll(self):
-        rel_x = self.x % self.bkgd.get_rect().width
-        gameDisplay.blit(self.bkgd,(rel_x - self.bkgd.get_rect().width, 0))
+        rel_x = self.x % self.bkgd.get_rect().width 
+        gameDisplay.blit(self.bkgd,(rel_x - self.bkgd.get_rect().width, 0)) #blit to rel_x minus width of background
         
         if rel_x <display_width:
-            gameDisplay.blit(self.bkgd,(rel_x,0))
-        self.x -=1
+            gameDisplay.blit(self.bkgd,(rel_x,0)) # gets rid of tear
+        self.x -=1 # causes scrolling
 
 
 class Penguin():
@@ -52,11 +52,17 @@ class Penguin():
     penguinPic = pygame.image.load('Resized Penguin.png') # variable for penguin sprite
     
     w = 150
-    h = 150
-    isJump = False
-    initial_jc = 13
-    JumpCount = initial_jc
+    h = 150 # used for transformation, NOT ACTUAL WIDTH/HEIGHT!!!
+
     penguinPic = pygame.transform.scale(penguinPic,(w,h)) #transform penguin sprite
+    
+    width = penguinPic.get_rect().width
+    height = penguinPic.get_rect().height
+
+    isJump = False
+    initial_jc = 13 # use to change size of jump
+    JumpCount = initial_jc
+    jump_lim = 0.5 # increase to increase jump height + jump acceleration/deceleration
     keys = pygame.key.get_pressed()
     lives = 3
     
@@ -66,20 +72,6 @@ class Penguin():
     
     x = (display_width *0.0001) # initialise x and y (relative to display ) of penguin
     y = (display_height * 0.75)
-    
-    def jump(self):
-        if self.isJump:
-                if self.JumpCount >= -self.initial_jc:
-                    neg = 1
-                    if self.JumpCount < 0:
-                        neg = -1
-                    self.y -=(self.JumpCount**2)*0.25*neg
-                    self.JumpCount -= 1
-                else:
-                    self.isJump = False
-                    self.JumpCount = self.initial_jc
-        else:
-            pass
         
     def __init__(self,x,y):
         self.x = x
@@ -92,6 +84,18 @@ class Penguin():
         font = pygame.font.SysFont(None, 25)
         text = font.render("Lives x{}".format(self.lives), True, black)
         gameDisplay.blit(text, (0,0))
+        
+    def jump(self):
+        if self.isJump:
+                if self.JumpCount >= -self.initial_jc:
+                    neg = 1
+                    if self.JumpCount < 0:
+                        neg = -1
+                    self.y -=(self.JumpCount**2)*self.jump_lim*neg
+                    self.JumpCount -= 1
+                else:
+                    self.isJump = False
+                    self.JumpCount = self.initial_jc
 
 class Rock():
     
@@ -135,15 +139,12 @@ class Enemy():
             self.reset_x()
       
     def checkcolision(self):
-      
-        if self.x < player.x + player.w and self.x > player.x:
-            if self.starty > player.y and self.starty < player.y + player.h or self.starty + self.height > player.y and self.starty + self.height < player.y + player.h:
-        
-#        if self.x > player.x and self.x < player.x + player.w:
-#            if player.y > self.starty or player.y > self.starty + self.height and player.y + player.h > self.starty or player.y + player.h > self.starty + self.height:
-                player.lives -= 1
-                self.reset_x()
-                Death()
+        if self.x < player.x + player.width and self.x > player.x:
+            if self.x + self.width < player.x + player.width and self.x + self.width > player.x:
+                if self.starty > player.y and self.starty < player.y + player.height or self.starty + self.height > player.y and self.starty + self.height < player.y + player.height:
+                    player.lives -= 1
+                    self.reset_x()
+                    Death()
     
     def move_draw_check(self):
         self.x -= self.speed
@@ -156,14 +157,14 @@ class Bird(Enemy):
     birdPic = pygame.image.load('Shitbird1.png')
     
     w = 100
-    h = 100
+    h = 100 # used for transform - not actual width and height!
     
     birdPic = pygame.transform.scale(birdPic, (w,h))
     
-    starty = display_height - 400
+    width = birdPic.get_rect().width
+    height = birdPic.get_rect().height
     
-    width = 100
-    height = 100
+    starty = display_height - 400
     
     
     def __init__(self,x,speed):
@@ -184,9 +185,12 @@ class Seal(Enemy):
     sealPic = pygame.image.load('Seal.png')
     
     w = 100
-    h = 100
+    h = 100 # used for transform - not actual width/height
     
     sealPic = pygame.transform.scale(sealPic,(w,h))
+    
+    width = sealPic.get_rect().width
+    height = sealPic.get_rect().height
     
     def __init__(self, x, speed ):
         self.x = x
@@ -265,7 +269,11 @@ def unpause():
     global pause
     pause = False
  
-   
+def set_paused():
+    global pause
+    pause = True
+    paused()
+
 def paused():
     global pause
      
@@ -301,7 +309,7 @@ def create_rock():
      keys = pygame.key.get_pressed()        
         
      if keys[pygame.K_UP]:
-         if len(projectiles) < 5:
+         if len(projectiles) < 1:
              projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
 
 def game_functions():
@@ -315,7 +323,7 @@ def draw_to_screen():
     for projectile in projectiles:
         projectile.move_draw()
     checkRock()
-    #button("Pause",400,450,150,50,green,bright_green,paused)
+    button("Pause",400,450,150,50,green,bright_green,set_paused)
     player.display(player.x,player.y)
     my_bird.move_draw_check()
     my_seal.move_draw_check()
