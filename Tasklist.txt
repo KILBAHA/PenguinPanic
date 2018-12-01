@@ -1,13 +1,14 @@
 Functionality:
 	OOP evaluate/Y+L
 	Seal Replace Rectangle/Y+L
-	New Penguin Sprite/Y+L
-	Collision Y
+	New Penguin Sprite Y+L
+	Collision/ Y
+	Bird - Animation L
 	Bird - Swoop Y
 	Fix life counter/R
 	Projectiles/R
-	Implement Background L
-	Pause Y
+	Implement Background/ L
+	Pause/ Y
 	Sound L
 	Intro/Instructions JPEG
 
