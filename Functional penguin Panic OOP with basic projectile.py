@@ -48,9 +48,11 @@ class Penguin():
     
     w = 150
     h = 150
-    
+    isJump = False
+    initial_jc = 13
+    JumpCount = initial_jc
     penguinPic = pygame.transform.scale(penguinPic,(w,h)) #transform penguin sprite
-    
+    keys = pygame.key.get_pressed()
     lives = 3
     
     """
@@ -60,6 +62,19 @@ class Penguin():
     x = (display_width *0.0001) # initialise x and y (relative to display ) of penguin
     y = (display_height * 0.75)
     
+    def jump(self):
+        if self.isJump:
+                if self.JumpCount >= -self.initial_jc:
+                    neg = 1
+                    if self.JumpCount < 0:
+                        neg = -1
+                    self.y -=(self.JumpCount**2)*0.25*neg
+                    self.JumpCount -= 1
+                else:
+                    self.isJump = False
+                    self.JumpCount = self.initial_jc
+        else:
+            pass
     def __init__(self,x,y):
         self.x = x
         self.y = y
@@ -338,9 +353,6 @@ def game_loop():
     #global pause
     exit = False
     
-    isJump = False
-    initial_jc = 13
-    JumpCount = initial_jc
     
     while exit == False:
         for event in pygame.event.get():
@@ -349,24 +361,14 @@ def game_loop():
                 
         keys = pygame.key.get_pressed()        
         
+        if keys[pygame.K_SPACE]:
+            player.isJump = True
+        player.jump()
         #if keys[pygame.K_UP]:
          #   if len(projectiles) < 5:
           #      projectiles.append(Rock(player.x, player.y))
         
-        if not (isJump):
-            if keys[pygame.K_SPACE]:
-                isJump = True
-                
-        else:
-            if JumpCount >= -initial_jc:
-                neg = 1
-                if JumpCount < 0:
-                    neg =-1
-                player.y-= (JumpCount **2)*0.25 * neg
-                JumpCount -=1
-            else:
-                isJump=False
-                JumpCount = initial_jc
+        
         game_functions()
         draw_to_screen()
         pygame.display.update()
