@@ -1,32 +1,42 @@
 import pygame
 
-# exit the program
 def events():
-    pass
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or (event.type ==pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            pygame.quit()
             
-# define display surface			
+"""            
+define display surface:			
+"""
 W, H = 800, 600
-#HW, HH = W / 2, H / 2
-#AREA = W * H
-
-# initialise display
+"""
+initialise display
+"""
 pygame.init()
-DS = pygame.display.set_mode((W, H))
-pygame.display.set_caption("code.Pylet - Scrolling Background with Player")
+gameDisplay = pygame.display.set_mode((W, H))
 
-bkgd = pygame.image.load("bg2.jpg").convert()
+
+bkgd = pygame.image.load("bg2.jpg")
 x = 0
-rel_x = x % bkgd.get_rect().width 
- #    gameDisplay.fill(white)  set the background to white   
+
+clock = pygame.time.Clock()  
  
 while True:
-    events()
-    DS.blit(bkgd, (rel_x - bkgd.get_rect().width, 0))	
-    if rel_x < W:
-        DS.blit(bkgd, (rel_x, 0))  
-    x -=1
-    pygame.display.update()
     
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or (event.type ==pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            pygame.quit()
+    
+    rel_x = x % bkgd.get_rect().width
+    gameDisplay.blit(bkgd,(rel_x - bkgd.get_rect().width, 0))
+    
+    if rel_x < W:
+        gameDisplay.blit(bkgd,(rel_x, 0))
+    
+    clock.tick(300)
+    pygame.display.update()    
+    
+    x -=1    
 pygame.quit()
 quit
     
