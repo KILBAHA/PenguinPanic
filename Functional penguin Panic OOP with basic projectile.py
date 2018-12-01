@@ -359,7 +359,7 @@ Create the gameloop:
 """
 
 def game_loop():
-    #global pause
+    global pause
     exit = False
     
     
@@ -370,12 +370,15 @@ def game_loop():
                 
         keys = pygame.key.get_pressed()        
         
+        if keys[pygame.K_p]:
+            pause = True
+            paused()
+            
+        
         if keys[pygame.K_SPACE]:
             player.isJump = True
         player.jump()
-        #if keys[pygame.K_UP]:
-         #   if len(projectiles) < 5:
-          #      projectiles.append(Rock(player.x, player.y))
+
         
         
         game_functions()
