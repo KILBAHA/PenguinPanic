@@ -136,8 +136,11 @@ class Enemy():
       
     def checkcolision(self):
       
-        if self.x > player.x and self.x < player.x + player.w:
-            if player.y > self.starty or player.y > self.starty + self.height and player.y + player.h > self.starty or player.y + player.h > self.starty + self.height:
+        if self.x < player.x + player.w and self.x > player.x:
+            if self.starty > player.y and self.starty < player.y + player.h or self.starty + self.height > player.y and self.starty + self.height < player.y + player.h:
+        
+#        if self.x > player.x and self.x < player.x + player.w:
+#            if player.y > self.starty or player.y > self.starty + self.height and player.y + player.h > self.starty or player.y + player.h > self.starty + self.height:
                 player.lives -= 1
                 self.reset_x()
                 Death()
