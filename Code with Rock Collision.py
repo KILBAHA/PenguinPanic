@@ -155,6 +155,14 @@ class Enemy():
     
     def move_draw_check(self):
         self.x -= self.speed
+        self.y += self.vy
+        if self.y <= 0:
+            self.vy = -self.vy
+        if self.y >= display_height - 300:
+            self.vy = -self.vy
+            
+        #self.y -= self.vy
+        print (self.vy)
         self.draw()
         self.checkcolision()
         self.checkoffscreen()
@@ -175,7 +183,9 @@ class Bird(Enemy):
     height = birdPic1.get_rect().height
     
     starty = display_height - 400
+    y = starty
     
+    vy = 6
     
     def __init__(self,x,speed):
         self.x = x
@@ -199,8 +209,9 @@ class Bird(Enemy):
             self.index = 0
             
         self.image = self.images[self.index]
+        
     def draw(self):
-        gameDisplay.blit(self.image,(self.x,self.starty))
+        gameDisplay.blit(self.image,(self.x,self.y))
 
 
 class Seal(Enemy):
@@ -209,6 +220,8 @@ class Seal(Enemy):
     height = 100
     
     starty = display_height - 100
+    vy = 0
+    y = starty
     
     sealPic = pygame.image.load('Seal.png')
     
