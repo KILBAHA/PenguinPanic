@@ -179,8 +179,22 @@ class Bird(Enemy):
         self.x = x
         self.speed = speed
         
+        self.images = []
+        self.images.append(pygame.image.load('ShitBird1.png'))
+        self.images.append(pygame.image.load('ShitBird2 (2).png'))
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = pygame.Rect(100, 100, 100, 100)
+        
+    def update(self):
+        self.index += 1
+        
+        if self.index >= len(self.images):
+            self.index = 0
+            
+        self.image = self.images[self.index]
     def draw(self):
-        gameDisplay.blit(self.birdPic,(self.x,self.starty))
+        gameDisplay.blit(self.image,(self.x,self.starty))
 
 
 class Seal(Enemy):
@@ -334,6 +348,7 @@ def draw_to_screen():
     checkRock()
     #button("Pause",400,450,150,50,green,bright_green,set_paused)
     player.display(player.x,player.y)
+    my_bird.update()
     my_bird.move_draw_check()
     my_seal.move_draw_check()
     slow_seal.move_draw_check()
