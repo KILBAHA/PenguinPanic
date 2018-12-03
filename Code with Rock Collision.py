@@ -162,15 +162,17 @@ class Enemy():
     
 class Bird(Enemy):
     
-    birdPic = pygame.image.load('Shitbird1.png')
+    birdPic1 = pygame.image.load('Shitbird1.png')
+    birdPic2 = pygame.image.load('ShitBird2 (2).png')
     
     w = 100
     h = 100 # used for transform - not actual width and height!
     
-    birdPic = pygame.transform.scale(birdPic, (w,h))
+    birdPic1 = pygame.transform.scale(birdPic1, (w,h))
+    birdPic2 = pygame.transform.scale(birdPic2,(w,h))
     
-    width = birdPic.get_rect().width
-    height = birdPic.get_rect().height
+    width = birdPic1.get_rect().width
+    height = birdPic1.get_rect().height
     
     starty = display_height - 400
     
@@ -180,8 +182,12 @@ class Bird(Enemy):
         self.speed = speed
         
         self.images = []
-        self.images.append(pygame.image.load('ShitBird1.png'))
-        self.images.append(pygame.image.load('ShitBird2 (2).png'))
+        self.images.append(self.birdPic1)
+        self.images.append(self.birdPic1)
+        self.images.append(self.birdPic1)
+        self.images.append(self.birdPic2)
+        self.images.append(self.birdPic2)
+        self.images.append(self.birdPic2)
         self.index = 0
         self.image = self.images[self.index]
         self.rect = pygame.Rect(100, 100, 100, 100)
