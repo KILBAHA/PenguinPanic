@@ -1,19 +1,12 @@
 Functionality:
-	OOP evaluate/Y+L
-	Seal Replace Rectangle/Y+L
+
 	New Penguin Sprite Y+L
-	Collision/ Y
-	Bird - Animation L
 	Bird - Swoop Y
-	Fix life counter/R
-	Projectiles/R
-	Implement Background/ L
-	Pause/ Y
 	Sound L
+	Boss Level
 	Intro/Instructions JPEG
 
 Efficiency:
-	Create Jump method in Penguin
 	Create methods for projectile code and factor
 
 	
