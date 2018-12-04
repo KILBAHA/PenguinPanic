@@ -1,13 +1,24 @@
 Functionality:
 
 	New Penguin Sprite Y+L
+		- Resize
 	Bird - Swoop Y
+		- Re-define params for bounce
 	Sound L
 	Boss Level
 	Intro/Instructions JPEG
+	Projectile code neat
 
 Efficiency:
 	Create methods for projectile code and factor
-
+	Need some Recursion somewhere!
+	Comments
+	References - I'd advise using a separate txt
+	Re-name the Images!
+	More efficient animation?
+	create class for text? - no OOP but makes neat
+	Death looks ugly
+	Make Pause function more efficient
+	Get rid of Game Functions()
 	
 	
