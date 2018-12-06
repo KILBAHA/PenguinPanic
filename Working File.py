@@ -113,8 +113,19 @@ class Rock():
     h = 30
     rockPic = pygame.transform.scale(rockPic,(w,h))
     speed = 15
+    projectiles = []
     
-    
+    def create_rock():
+     keys = pygame.key.get_pressed()        
+        
+     if keys[pygame.K_UP]:
+         if len(Rock.projectiles) < 100:
+             Rock.projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
+             
+    def resetrocks(self):
+        for projectile in self.projectiles:
+            self.projectiles.pop(self.projectiles.index(projectile))
+            
     def __init__(self,x,y,itc,tc):
         self.x = x
         self.y = y
@@ -122,12 +133,11 @@ class Rock():
         self.tc = tc # throw count
     
     def checkRock(self): # check off screen
-        global projectiles
-        for projectile in projectiles:
+        for projectile in self.projectiles:
             if projectile.x < display_width and projectile.y < display_height:
                 pass
             else:
-                projectiles.pop(projectiles.index(projectile))
+                self.projectiles.pop(self.projectiles.index(projectile))
     
     def move_draw_check(self):
         self.x += self.speed
@@ -155,13 +165,17 @@ class Enemy():
             print ("dodged{}".format(Enemy.dodged))
             self.reset_x()
             
+    def reset_all(self):
+        my_bird.reset_x()
+        my_seal.reset_x()
+        slow_seal.reset_x()
 
 #can we bundle
 
 
     def checkrockcollision(self):
         global projectiles
-        for projectile in projectiles:
+        for projectile in Rock.projectiles:
             if self.x > projectile.x and self.x < projectile.x + projectile.w:
                 if projectile.y > self.starty or projectile.y > self.starty + self.height and projectile.y + projectile.h > self.starty or projectile.y + projectile.h > self.starty + self.height:
                     self.reset_x()        
@@ -171,9 +185,10 @@ class Enemy():
             if self.x + self.width < player.x + player.width and self.x + self.width > player.x:
                 if self.starty > player.y and self.starty < player.y + player.height or self.starty + self.height > player.y and self.starty + self.height < player.y + player.height:
                     player.lives -= 1
-                    reset_all()
+                    self.reset_all()
                     player.reset()
                     Death()
+                    
     
     def move_draw_check(self):
         self.x -= self.speed
@@ -271,7 +286,7 @@ my_seal = Seal(display_width,12) # Syntax - Class has capital, object is lowerca
 slow_seal=Seal(display_width + 500,12)
 player = Penguin(Penguin.x,Penguin.y) 
 my_bird = Bird(display_width+ 300, 12)
-projectiles = []
+
 
 def quitgame():
     pygame.quit()
@@ -359,34 +374,14 @@ def paused():
         
         pygame.display.update()
         clock.tick(15)
-    
-def checkRock():
-    global projectiles
-    for projectile in projectiles:
-        if projectile.x < display_width and projectile.y < display_height:
-            pass
-        else:
-            projectiles.pop(projectiles.index(projectile))
-
-def create_rock():
-     keys = pygame.key.get_pressed()        
-        
-     if keys[pygame.K_UP]:
-         if len(projectiles) < 100:
-             projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
-
-def reset_all():
-    my_bird.reset_x()
-    my_seal.reset_x()
-    slow_seal.reset_x()
 
 def draw_to_screen():
     
     
     Background.Scroll(Background)
     player.Life_Count()
-    create_rock()
-    for projectile in projectiles:
+    Rock.create_rock()
+    for projectile in Rock.projectiles:
         projectile.move_draw_check()
     #button("Pause",400,450,150,50,green,bright_green,set_paused)
     player.display(player.x,player.y)

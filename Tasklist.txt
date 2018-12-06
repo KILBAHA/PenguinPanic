@@ -1,17 +1,20 @@
 Functionality:
 
 	New Penguin Sprite Y+L
-		- Resize
+		- Resize/
 	Bird - Swoop Y
 		- Re-define params for bounce
 	Sound L
 	Boss Level
 	Intro/Instructions JPEG
 	Projectile code neat
+	horizontal player movement
 
 Efficiency:
-	Create methods for projectile code and factor
+	projectile collision needs work
+		- then change projectiles to not be a list
 	Need some Recursion somewhere!
+		-healthbars?
 	Comments
 	References - I'd advise using a separate txt
 	Re-name the Images!
