@@ -118,7 +118,7 @@ class Rock():
     def create_rock():
      keys = pygame.key.get_pressed()        
         
-     if keys[pygame.K_RETURN]:
+     if keys[pygame.K_UP]:
          if len(Rock.projectiles) < 100:
              Rock.projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
              
