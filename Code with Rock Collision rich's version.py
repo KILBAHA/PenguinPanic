@@ -23,6 +23,8 @@ green = (0,200,0)
 bright_green = (0,255,0)
 blue = (0,0,200)
 bright_blue = (0,0,255)
+orange = (242,176,21)
+bright_orange = (247,210,64)
 
 pause = False  # required for pause function
 
@@ -139,7 +141,6 @@ class Rock():
 class Enemy():
     
     dodged = 0
-    startx = display_width
     
     def reset_x(self):
         self.x = self.startx + random.randint(150,500)
@@ -190,6 +191,7 @@ class Bird(Enemy):
     def __init__(self,x,speed):
         self.x = x
         self.speed = speed
+        self.startx = x
         
     def draw(self):
         gameDisplay.blit(self.birdPic,(self.x,self.starty))
@@ -214,6 +216,7 @@ class Seal(Enemy):
     def __init__(self, x, speed ):
         self.x = x
         self.speed = speed
+        self.startx = x
         
     def draw(self): 
         gameDisplay.blit(self.sealPic,(self.x,self.starty))
@@ -346,6 +349,7 @@ def draw_to_screen():
 
 def intro_screen():
     intro = True
+    intropic = pygame.image.load("Intro Screen.png")
     
     while intro:
         for event in pygame.event.get():
@@ -353,18 +357,17 @@ def intro_screen():
                 pygame.quit()
                 quit()
         
-        gameDisplay.fill(white)
-        
-        largeText = pygame.font.Font ('freesansbold.ttf', 100)
+        gameDisplay.blit(intropic, (0,0))
+        """largeText = pygame.font.Font ('freesansbold.ttf', 100)
         TextSurf, TextRect = text_objects("Penguin Panic!", largeText)
         TextRect.center = ((display_width * 0.5),(display_height * 0.5))
-        gameDisplay.blit(TextSurf, TextRect)
+        gameDisplay.blit(TextSurf, TextRect)"""
         
-        button("Play",150,450,150,50,green,bright_green,game_loop) # x,y,w,h,ac,ic,fn
+        button("Play",150,450,150,50, bright_orange, orange,game_loop) # x,y,w,h,ac,ic,fn
         
-        button("Quit",550,450,150,50,red,bright_red,quitgame)
+        button("Quit",550,450,150,50, bright_orange, orange,quitgame)
         
-        button("Instructions",350, 520, 150, 50, blue, bright_blue)
+        button("Instructions",350, 520, 150, 50, bright_orange, orange)
         
         pygame.display.update()
         clock.tick(15)
