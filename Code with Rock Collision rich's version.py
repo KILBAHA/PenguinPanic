@@ -332,20 +332,21 @@ def reset_all():
     my_seal.reset_x()
     slow_seal.reset_x()
     
-def game_functions():
-    create_rock()
+
+    
     
 def draw_to_screen():
     
     Background.Scroll(Background)
     player.Life_Count()
+    create_rock()
     for projectile in projectiles:
         projectile.move_draw_check()
     #button("Pause",400,450,150,50,green,bright_green,set_paused)
     player.display(player.x,player.y)
-    #my_bird.move_draw_check()
-    #my_seal.move_draw_check()
-    #slow_seal.move_draw_check()
+    my_bird.move_draw_check()
+    my_seal.move_draw_check()
+    slow_seal.move_draw_check()
 
 def intro_screen():
     intro = True
@@ -404,7 +405,6 @@ def game_loop():
             if player.x < 200:
                 player.x += player.vel
                 
-        game_functions()
         draw_to_screen()
         pygame.display.update()
         clock.tick(30)
