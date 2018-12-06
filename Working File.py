@@ -162,9 +162,16 @@ class Enemy():
     def checkrockcollision(self):
         global projectiles
         for projectile in projectiles:
+            
+#            if projectile.x > self.x and projectile.x + projectile.w > self.x:
+#                print ("check 1")
+#                if projectile.x < self.x + self.width and projectile.x + projectile.w < self.x + self.width:
+#                    print ("check 2")
+#                    if self.y > projectile.y and self.y < projectile.y + projectile.h or self.y + self.height > projectile.y and self.starty + self.height < projectile.y + projectile.h:
+            
             if self.x > projectile.x and self.x < projectile.x + projectile.w:
                 if projectile.y > self.starty or projectile.y > self.starty + self.height and projectile.y + projectile.h > self.starty or projectile.y + projectile.h > self.starty + self.height:
-                    self.reset_x()        
+                       self.reset_x()        
 
     def checkcolision(self):
         if self.x < player.x + player.width and self.x > player.x:
@@ -184,7 +191,7 @@ class Enemy():
             self.vy = -self.vy
             
         #self.y -= self.vy
-        print (self.vy)
+        #print (self.vy)
         self.draw()
         self.checkcolision()
         self.checkoffscreen()
@@ -370,7 +377,7 @@ def create_rock():
      keys = pygame.key.get_pressed()        
         
      if keys[pygame.K_UP]:
-         if len(projectiles) < 100:
+         if len(projectiles) < 1:
              projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
 
 def reset_all():
