@@ -159,6 +159,7 @@ class Enemy():
     def reset_x(self):
         self.x = self.startx + random.randint(100, 300)
         
+        
     def checkoffscreen(self):    
         if self.x <- self.width:
             Enemy.dodged+=1
@@ -192,6 +193,7 @@ class Enemy():
                     player.lives -= 1
                     self.reset_all()
                     player.reset()
+                    Rock.resetrocks
                     Death()
                     
     
@@ -378,29 +380,7 @@ def paused():
         pygame.display.update()
         clock.tick(15)
         
-def checkRock():
-    global projectiles
-    for projectile in projectiles:
-        if projectile.x < display_width and projectile.y < display_height:
-            pass
-        else:
-            projectiles.pop(projectiles.index(projectile))
-
-def create_rock():
-     keys = pygame.key.get_pressed()        
-        
-     if keys[pygame.K_UP]:
-         if len(projectiles) < 1:
-             projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
-
-def reset_all():
-    my_bird.reset_x()
-    my_seal.reset_x()
-    slow_seal.reset_x()
-
-def draw_to_screen():
-    
-    
+def draw_to_screen():    
     Background.Scroll(Background)
     player.Life_Count()
     Rock.create_rock()
@@ -448,12 +428,6 @@ def intro_screen():
         pygame.display.update()
         clock.tick(15)
 
-
-
-
-
-
-
 """
 Create the gameloop:
 """
@@ -461,7 +435,6 @@ Create the gameloop:
 def game_loop():
     global pause
     exit = False
-    
     
     while exit == False:
         for event in pygame.event.get():
@@ -474,13 +447,10 @@ def game_loop():
             pause = True
             paused()
             
-        
         if keys[pygame.K_SPACE]:
             player.isJump = True
         player.jump()
 
-        
-        
         draw_to_screen()
         pygame.display.update()
         clock.tick(30)
