@@ -51,8 +51,8 @@ class Penguin():
     
     penguinPic = pygame.image.load('Sliding Penguin.png') # variable for penguin sprite
     
-    w = 50      
-    h = 27 # used for transformation, NOT ACTUAL WIDTH/HEIGHT!!!
+    w = 150
+    h = 150 # used for transformation, NOT ACTUAL WIDTH/HEIGHT!!!
 
     penguinPic = pygame.transform.scale(penguinPic,(w,h)) #transform penguin sprite
     
