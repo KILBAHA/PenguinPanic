@@ -139,6 +139,7 @@ class Rock():
 class Enemy():
     
     dodged = 0
+    startx = display_width
     
     def reset_x(self):
         self.x = self.startx + random.randint(150,500)
@@ -189,7 +190,7 @@ class Bird(Enemy):
     def __init__(self,x,speed):
         self.x = x
         self.speed = speed
-        self.startx = x
+        
     def draw(self):
         gameDisplay.blit(self.birdPic,(self.x,self.starty))
 
@@ -213,7 +214,6 @@ class Seal(Enemy):
     def __init__(self, x, speed ):
         self.x = x
         self.speed = speed
-        self.startx = x
         
     def draw(self): 
         gameDisplay.blit(self.sealPic,(self.x,self.starty))
@@ -329,18 +329,15 @@ def reset_all():
     my_seal.reset_x()
     slow_seal.reset_x()
     
-def neat():
-    for projectile in projectiles:
-        projectile.move_draw_check()
+def game_functions():
+    create_rock()
     
 def draw_to_screen():
     
     Background.Scroll(Background)
     player.Life_Count()
-    neat()
-    #for projectile in projectiles:
-        #projectile.move_draw_check()
-    create_rock()
+    for projectile in projectiles:
+        projectile.move_draw_check()
     #button("Pause",400,450,150,50,green,bright_green,set_paused)
     player.display(player.x,player.y)
     my_bird.move_draw_check()
@@ -395,6 +392,7 @@ def game_loop():
             player.isJump = True
         player.jump()
 
+        game_functions()
         draw_to_screen()
         pygame.display.update()
         clock.tick(30)
