@@ -65,7 +65,7 @@ class Penguin():
     jump_lim = 0.3 # increase to increase jump height + jump acceleration/deceleration
     keys = pygame.key.get_pressed()
     lives = 3
-    
+    vel = 10
     """
     sort this shit out!:
     """
@@ -343,9 +343,9 @@ def draw_to_screen():
         projectile.move_draw_check()
     #button("Pause",400,450,150,50,green,bright_green,set_paused)
     player.display(player.x,player.y)
-    my_bird.move_draw_check()
-    my_seal.move_draw_check()
-    slow_seal.move_draw_check()
+    #my_bird.move_draw_check()
+    #my_seal.move_draw_check()
+    #slow_seal.move_draw_check()
 
 def intro_screen():
     intro = True
@@ -394,7 +394,16 @@ def game_loop():
         if keys[pygame.K_SPACE]:
             player.isJump = True
         player.jump()
-
+        
+        
+        if keys[pygame.K_LEFT]:
+            if player.x > player.vel:
+                player.x -= player.vel
+        
+        if keys[pygame.K_RIGHT]:
+            if player.x < 200:
+                player.x += player.vel
+                
         game_functions()
         draw_to_screen()
         pygame.display.update()
