@@ -459,7 +459,10 @@ def paused():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-         
+        """
+        Create a dedicated pause screen to blit:
+        """
+        
         gameDisplay.fill(white)
         
         largeText = pygame.font.Font ('freesansbold.ttf', 100)
@@ -467,9 +470,9 @@ def paused():
         TextRect.center = ((display_width * 0.5),(display_height * 0.5))
         gameDisplay.blit(TextSurf, TextRect)
         
-        button("Continue",150,450,150,50,green,bright_green,unpause) # x,y,w,h,ac,ic,fn
+        button("Continue",150,450,150,50,bright_orange,orange,unpause) # x,y,w,h,ac,ic,fn
         
-        button("Quit",550,450,150,50,red,bright_red,quitgame)
+        button("Quit",550,450,150,50,bright_orange,orange,quitgame)
         
         pygame.display.update()
         clock.tick(15)
