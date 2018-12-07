@@ -27,6 +27,7 @@ orange = (242,176,21)
 bright_orange = (247,210,64)
 pause = False  # required for pause function
 BOSS = False
+already_run_message = False
 
 #define clock
 clock = pygame.time.Clock()
@@ -76,11 +77,21 @@ class Penguin():
     y = (display_height - h)
     startx = x
     starty = y
+    vx = 5
         
     def __init__(self,x,y):
         self.x = x
         self.y = y
-        
+    
+    def move(self,iput):
+        if iput == "L":
+            self.x -= self.vx
+        if iput == "R":
+            self.x += self.vx
+        if iput == "rel":
+            pass
+
+    
     def reset(self):
         self.isJump = False
         self.JumpCount = self.initial_jc
@@ -218,16 +229,65 @@ class Enemy():
             self.checkoffscreen()
             self.checkrockcollision()
         else:
+            bossmessage()
             BOSS = True
     
 class Boss(Enemy):
     
     hp = 10
     
+    def __init__(self, x, y ):
+        self.x = x
+        self.y = y
+        self.startx = x
+        self.starty = y
+
+
+    #finx = startx - 200
+    width = 100
+    height = 100
+    vy = 3
+    vx = -3
+    
+    def draw(self):
+        pygame.draw.rect(gameDisplay, blue, [self.x, self.y, self.width, self.height])
+    
+    
+    def checkrockcollision(self):
+        pass
+    
     def move_draw_check(self):
-#        global BOSS
-#        while BOSS == True:
-        pygame.draw.rect(gameDisplay, blue, [50, 50, 50, 50])
+        
+#        self.y += self.vy
+#        self.x += self.vx
+#        
+#        if self.x >= self.startx and self.y <= display_height - 10:
+#            self.vy = -3
+#        if self.y <= display_height -10 and self.x >= self.startx - 200:
+#            self.vy = 0
+#            self.vx = -6
+#        if self.x <= self.startx-200 
+#            
+                
+        
+        self.y += self.vy
+        self.x += self.vx
+        if self.y <= 0:
+            self.vy = -self.vy
+            #self.vx = +5
+        if self.y >= display_height - (200+self.height):
+            self.vy = -self.vy
+            #self.vx = -5
+        if self.x >= display_width + 100:
+            self.vx = -self.vx
+        if self.x <= display_width - 200:
+            self.vx = -self.vx
+        
+        
+        self.draw()
+        self.checkcolision()
+        self.checkoffscreen()
+        self.checkrockcollision()
 
 class Bird(Enemy):
     
@@ -306,7 +366,7 @@ my_seal = Seal(display_width,12) # Syntax - Class has capital, object is lowerca
 slow_seal=Seal(display_width + 500,12)
 player = Penguin(Penguin.x,Penguin.y) 
 my_bird = Bird(display_width+ 300, 12)
-my_boss = Boss()
+my_boss = Boss(display_width - 200, display_height - 400)
 
 
 def quitgame():
@@ -344,6 +404,17 @@ def message_display(text):
     TextSurf, TextRect = text_objects(text, in_game_font)
     TextRect.center = ((display_width * 0.5), (display_height * 0.5))
     gameDisplay.blit(TextSurf, TextRect)
+    
+def bossmessage():
+    global already_run_message
+    
+    if already_run_message == True:
+        pass
+    else:
+        message_display("Warning! Boss Incoming!")
+        pygame.display.update()
+        time.sleep(2)
+        already_run_message = True
 
 def Death():
     for event in pygame.event.get():
@@ -459,11 +530,32 @@ def game_loop():
             if event.type == pygame.QUIT:
                 exit = True
                 
+#            if event.type == pygame.KEYDOWN:
+#                if event.key == pygame.K_LEFT:
+#                    player.move("L")
+#            elif event.key == pygame.K_RIGHT:
+#                player.move("R")
+#        
+#            if event.type == pygame.KEYUP:
+#                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+#                    player.move("rel")
+#                
         keys = pygame.key.get_pressed()        
         
         if keys[pygame.K_p]:
             pause = True
             paused()
+            
+#        if event.type == pygame.KEYDOWN:
+#            if event.key == pygame.K_LEFT:
+#                player.move("L")
+#            elif event.key == pygame.K_RIGHT:
+#                player.move("R")
+#        
+#        if event.type == pygame.KEYUP:
+#            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+#                player.move("rel")
+#        
             
         if keys[pygame.K_SPACE]:
             player.isJump = True
