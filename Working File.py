@@ -26,6 +26,7 @@ bright_blue = (0,0,255)
 orange = (242,176,21)
 bright_orange = (247,210,64)
 pause = False  # required for pause function
+BOSS = False
 
 #define clock
 clock = pygame.time.Clock()
@@ -72,7 +73,7 @@ class Penguin():
     """
     
     x = (display_width *0.0001) # initialise x and y (relative to display ) of penguin
-    y = (display_height * 0.75)
+    y = (display_height - h)
     startx = x
     starty = y
         
@@ -153,6 +154,8 @@ class Rock():
        
 class Enemy():
     
+    lives = 5
+    
     dodged = 0
     startx = display_width
     
@@ -184,7 +187,8 @@ class Enemy():
 #                    if self.y > projectile.y and self.y < projectile.y + projectile.h or self.y + self.height > projectile.y and self.starty + self.height < projectile.y + projectile.h:
             if self.x > projectile.x and self.x < projectile.x + projectile.w:
                 if projectile.y > self.starty or projectile.y > self.starty + self.height and projectile.y + projectile.h > self.starty or projectile.y + projectile.h > self.starty + self.height:
-                       self.reset_x()        
+                    self.lives -=1   
+                    self.reset_x()        
 
     def checkcolision(self):
         if self.x < player.x + player.width and self.x > player.x:
@@ -198,20 +202,33 @@ class Enemy():
                     
     
     def move_draw_check(self):
-        self.x -= self.speed
-        self.y += self.vy
-        if self.y <= 0:
-            self.vy = -self.vy
-        if self.y >= display_height - 300:
-            self.vy = -self.vy
-            
-        #self.y -= self.vy
-        #print (self.vy)
-        self.draw()
-        self.checkcolision()
-        self.checkoffscreen()
-        self.checkrockcollision()
+        global BOSS
+        if self.lives > 0:
+            self.x -= self.speed
+            self.y += self.vy
+            if self.y <= 0:
+                self.vy = -self.vy
+            if self.y >= display_height - 300:
+                self.vy = -self.vy
+                
+            #self.y -= self.vy
+            #print (self.vy)
+            self.draw()
+            self.checkcolision()
+            self.checkoffscreen()
+            self.checkrockcollision()
+        else:
+            BOSS = True
     
+class Boss(Enemy):
+    
+    hp = 10
+    
+    def move_draw_check(self):
+#        global BOSS
+#        while BOSS == True:
+        pygame.draw.rect(gameDisplay, blue, [50, 50, 50, 50])
+
 class Bird(Enemy):
     
     birdPic1 = pygame.image.load('Bird1.png')
@@ -258,22 +275,20 @@ class Bird(Enemy):
 
 class Seal(Enemy):
     
-    width = 100
-    height = 100
-    
-    starty = display_height - 100
-    vy = 0
-    y = starty
-    
+   
     sealPic = pygame.image.load('Seal.png')
     
-    w = 100
+    w = 150
     h = 100 # used for transform - not actual width/height
     
     sealPic = pygame.transform.scale(sealPic,(w,h))
     
     width = sealPic.get_rect().width
     height = sealPic.get_rect().height
+    
+    starty = display_height - h
+    vy = 0
+    y = starty
     
     def __init__(self, x, speed ):
         self.x = x
@@ -291,6 +306,7 @@ my_seal = Seal(display_width,12) # Syntax - Class has capital, object is lowerca
 slow_seal=Seal(display_width + 500,12)
 player = Penguin(Penguin.x,Penguin.y) 
 my_bird = Bird(display_width+ 300, 12)
+my_boss = Boss()
 
 
 def quitgame():
@@ -392,6 +408,8 @@ def draw_to_screen():
     my_bird.move_draw_check()
     my_seal.move_draw_check()
     slow_seal.move_draw_check()
+    if BOSS == True:
+        my_boss.move_draw_check()
     
 #def checkrockcollision():
 #    global projectiles
