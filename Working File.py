@@ -234,6 +234,13 @@ class Enemy():
     
 class Boss(Enemy):
     
+    BossPic = pygame.image.load('bp_baloon.png') # variable for penguin sprite
+    
+    w = 145
+    h = 285 # used for transformation, NOT ACTUAL WIDTH/HEIGHT!!!
+
+    BossPic = pygame.transform.scale(BossPic,(w,h)) #transform penguin sprite
+    
     hp = 10
     
     def __init__(self, x, y ):
@@ -250,7 +257,7 @@ class Boss(Enemy):
     vx = -3
     
     def draw(self):
-        pygame.draw.rect(gameDisplay, blue, [self.x, self.y, self.width, self.height])
+        gameDisplay.blit(self.BossPic,(self.x,self.y))
     
     
     def checkrockcollision(self):
