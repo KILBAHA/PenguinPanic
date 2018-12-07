@@ -538,18 +538,16 @@ def game_loop():
     while exit == False:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                exit = True
-                
+                exit = True  
 #            if event.type == pygame.KEYDOWN:
 #                if event.key == pygame.K_LEFT:
 #                    player.move("L")
 #            elif event.key == pygame.K_RIGHT:
 #                player.move("R")
-#        
 #            if event.type == pygame.KEYUP:
 #                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 #                    player.move("rel")
-#                
+                
         keys = pygame.key.get_pressed()        
         
         if keys[pygame.K_p]:
