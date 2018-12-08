@@ -384,6 +384,7 @@ my_boss = Boss(display_width - 200, display_height - 400)
 rocksound = pygame.mixer.Sound("rocksound.wav")
 livedown = pygame.mixer.Sound("noot noot.wav")
 jump = pygame.mixer.Sound("jump.wav")
+soundtrack = pygame.mixer.Sound("dafeelin_loop.wav")
 
 def quitgame():
     pygame.quit()
@@ -544,7 +545,7 @@ Create the gameloop:
 def game_loop():
     global pause
     exit = False
-    
+    soundtrack.play()
     while exit == False:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
