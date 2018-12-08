@@ -200,7 +200,7 @@ class Enemy():
                 if projectile.y > self.starty or projectile.y > self.starty + self.height and projectile.y + projectile.h > self.starty or projectile.y + projectile.h > self.starty + self.height:
                     self.lives -=1   
                     self.reset_x()    
-                 #   rocksound.play()
+                    rocksound.play()
 
     def checkcolision(self):
         if self.x < player.x + player.width and self.x > player.x:
@@ -375,7 +375,7 @@ slow_seal=Seal(display_width + 500,12)
 player = Penguin(Penguin.x,Penguin.y) 
 my_bird = Bird(display_width+ 300, 12)
 my_boss = Boss(display_width - 200, display_height - 400)
-#rocksound = pygame.mixer.Sound("rocksound.wav")
+rocksound = pygame.mixer.Sound("rs.wav")
 
 def quitgame():
     pygame.quit()
