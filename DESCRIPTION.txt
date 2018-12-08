@@ -1,0 +1,5 @@
+Game Description
+Game Name: Penguin Panic!
+Group: Yusuf Ahmed, Lydia Clare Leather, Richard Sears.
+The game revolves around a penguin along a snowy background (repeating seamless image) who must dodge angry seals – collision objects moving right to left across the screen at the same x coordinate as the seal- and bird animations the swoop down and across the screen (ask Yusuf how it is actually coded).
+
