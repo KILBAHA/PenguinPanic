@@ -56,8 +56,8 @@ class Penguin():
     
     penguinPic = pygame.image.load('Sliding Penguin.png') # variable for penguin sprite
     
-    w = 185
-    h = 100 # used for transformation, NOT ACTUAL WIDTH/HEIGHT!!!
+    w = 130
+    h = 80 # used for transformation, NOT ACTUAL WIDTH/HEIGHT!!!
 
     penguinPic = pygame.transform.scale(penguinPic,(w,h)) #transform penguin sprite
     
@@ -67,19 +67,15 @@ class Penguin():
     isJump = False
     initial_jc = 13 # use to change size of jump
     JumpCount = initial_jc
-    jump_lim = 0.3 # increase to increase jump height + jump acceleration/deceleration
+    jump_lim = 0.6 # increase to increase jump height + jump acceleration/deceleration
     keys = pygame.key.get_pressed()
-    lives = 3
-    
-    """
-    sort this shit out!:
-    """
+    lives = 5
     
     x = (display_width *0.0001) # initialise x and y (relative to display ) of penguin
-    y = (display_height - height)
+    y = (display_height - (height-3))
     startx = x
     starty = y
-    vx = 5
+    vx = 10
         
     def __init__(self,x,y):
         self.x = x
@@ -90,8 +86,7 @@ class Penguin():
             self.x -= self.vx
         if iput == "R":
             self.x += self.vx
-        if iput == "rel":
-            pass
+
 
     
     def reset(self):
@@ -135,8 +130,8 @@ class Rock():
     def create_rock():
      keys = pygame.key.get_pressed()        
         
-     if keys[pygame.K_RETURN]:
-         if len(Rock.projectiles) < 100:
+     if keys[pygame.K_UP]:
+         if len(Rock.projectiles) < 1:
              Rock.projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
              
     def resetrocks(self):
@@ -250,7 +245,7 @@ class Boss(Enemy):
 
     BossPic = pygame.transform.scale(BossPic,(w,h)) #transform penguin sprite
     
-    hp = 10
+    lives = 10
     
     def __init__(self, x, y ):
         self.x = x
@@ -264,14 +259,30 @@ class Boss(Enemy):
     height = 100
     vy = 3
     vx = -3
+
+#    def checkrockcollision(self):
+#        global projectiles
+#        for projectile in Rock.projectiles:
+##            if projectile.x > self.x and projectile.x + projectile.w > self.x:
+##                print ("check 1")
+##                if projectile.x < self.x + self.width and projectile.x + projectile.w < self.x + self.width:
+##                    print ("check 2")
+##                    if self.y > projectile.y and self.y < projectile.y + projectile.h or self.y + self.height > projectile.y and self.starty + self.height < projectile.y + projectile.h:
+#            if self.x > projectile.x and self.x < projectile.x + projectile.w:
+#                if projectile.y > self.starty or projectile.y > self.starty + self.height and projectile.y + projectile.h > self.starty or projectile.y + projectile.h > self.starty + self.height:
+#                    self.lives -=1       
+#                    rocksound.play()
+ 
+    def reset_x(self):
+        pass
     
     
     def draw(self):
         gameDisplay.blit(self.BossPic,(self.x,self.y))
     
     
-    def checkrockcollision(self):
-        pass
+#    def checkrockcollision(self):
+#        pass
     
     def move_draw_check(self):
         
@@ -308,7 +319,7 @@ class Boss(Enemy):
         
     def epilogue(self):
         global epilogue
-        if self.hp <= 0:
+        if self.lives <= 0:
             epilogue = True
 
 class Bird(Enemy):
@@ -384,11 +395,18 @@ class Text():
 """
 Create Objects from class:
 """
-my_seal = Seal(display_width,12) # Syntax - Class has capital, object is lowercase
-slow_seal=Seal(display_width + 500,12)
+my_seal = Seal(display_width,15) # Syntax - Class has capital, object is lowercase
+slow_seal=Seal(display_width + 500,15)
 player = Penguin(Penguin.x,Penguin.y) 
 my_bird = Bird(display_width+ 300, 12)
+slow_bird = Bird(display_width + 500, 12)
 my_boss = Boss(display_width - 200, display_height - 400)
+
+
+"""
+Import Audio
+"""
+
 rocksound = pygame.mixer.Sound("rocksound.wav")
 livedown = pygame.mixer.Sound("noot noot.wav")
 jump = pygame.mixer.Sound("jump.wav")
@@ -505,6 +523,8 @@ def draw_to_screen():
     #button("Pause",400,450,150,50,green,bright_green,set_paused)
     player.display(player.x,player.y)
     my_bird.update()
+    slow_bird.update()
+    slow_bird.move_draw_check()
     my_bird.move_draw_check()
     my_seal.move_draw_check()
     slow_seal.move_draw_check()
@@ -575,14 +595,6 @@ def game_loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit = True  
-#            if event.type == pygame.KEYDOWN:
-#                if event.key == pygame.K_LEFT:
-#                    player.move("L")
-#            elif event.key == pygame.K_RIGHT:
-#                player.move("R")
-#            if event.type == pygame.KEYUP:
-#                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-#                    player.move("rel")
                 
         keys = pygame.key.get_pressed()        
         
@@ -590,16 +602,10 @@ def game_loop():
             pause = True
             paused()
             
-#        if event.type == pygame.KEYDOWN:
-#            if event.key == pygame.K_LEFT:
-#                player.move("L")
-#            elif event.key == pygame.K_RIGHT:
-#                player.move("R")
-#        
-#        if event.type == pygame.KEYUP:
-#            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-#                player.move("rel")
-#        
+        if keys[pygame.K_LEFT]:
+            player.move("L")
+        if keys[pygame.K_RIGHT]:
+            player.move("R")
             
         if keys[pygame.K_SPACE]:
             player.isJump = True
