@@ -29,6 +29,7 @@ bright_orange = (247,210,64)
 pause = False  # required for pause function
 BOSS = False
 already_run_message = False
+epilogue = False
 
 #define clock
 clock = pygame.time.Clock()
@@ -264,6 +265,7 @@ class Boss(Enemy):
     vy = 3
     vx = -3
     
+    
     def draw(self):
         gameDisplay.blit(self.BossPic,(self.x,self.y))
     
@@ -303,6 +305,11 @@ class Boss(Enemy):
         self.checkcolision()
         self.checkoffscreen()
         self.checkrockcollision()
+        
+    def epilogue(self):
+        global epilogue
+        if self.hp <= 0:
+            epilogue = True
 
 class Bird(Enemy):
     
@@ -539,6 +546,23 @@ def intro_screen():
         pygame.display.update()
         clock.tick(15)
 
+
+def epilogue_screen():    
+        gameDisplay.blit(Background.bkgd,(0,0))
+        message_display("You have defeated the evil oil baron")
+        pygame.display.update()
+        time.sleep(2)
+        gameDisplay.blit(Background.bkgd,(0,0))
+        message_display("But at what cost?")
+        pygame.display.update()
+        time.sleep(2)
+        gameDisplay.blit(Background.bkgd,(0,0))
+        message_display("The battlefield is littered with the corpses of ...")
+        pygame.display.update()
+        time.sleep(2)
+
+
+
 """
 Create the gameloop:
 """
@@ -580,12 +604,14 @@ def game_loop():
         if keys[pygame.K_SPACE]:
             player.isJump = True
         player.jump()
+        
+        if epilogue == True:
+            epilogue_screen()
 
         draw_to_screen()
         pygame.display.update()
         clock.tick(30)
                 
-
 intro_screen()
 pygame.quit()
 quit
