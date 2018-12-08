@@ -114,7 +114,10 @@ class Penguin():
                     if self.JumpCount < 0:
                         neg = -1
                     self.y -=(self.JumpCount**2)*self.jump_lim*neg
+                    jump.play()
                     self.JumpCount -= 1
+                    
+                    #jump.stop()
                 else:
                     self.isJump = False
                     self.JumpCount = self.initial_jc
@@ -208,10 +211,12 @@ class Enemy():
             if self.x + self.width < player.x + player.width and self.x + self.width > player.x:
                 if self.starty > player.y and self.starty < player.y + player.height or self.starty + self.height > player.y and self.starty + self.height < player.y + player.height:
                     player.lives -= 1
+                    livedown.play()
                     self.reset_all()
                     player.reset()
                     Rock.resetrocks
                     Death()
+                    
                     
     
     def move_draw_check(self):
@@ -377,6 +382,8 @@ player = Penguin(Penguin.x,Penguin.y)
 my_bird = Bird(display_width+ 300, 12)
 my_boss = Boss(display_width - 200, display_height - 400)
 rocksound = pygame.mixer.Sound("rocksound.wav")
+livedown = pygame.mixer.Sound("noot noot.wav")
+jump = pygame.mixer.Sound("jump.wav")
 
 def quitgame():
     pygame.quit()
@@ -439,6 +446,7 @@ def Death():
     pygame.display.update()
     time.sleep(2)
     if player.lives == 0:
+        livedown.play()
         player.lives = Penguin.lives
         intro_screen()
 
