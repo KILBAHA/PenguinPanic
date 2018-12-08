@@ -75,7 +75,7 @@ class Penguin():
     """
     
     x = (display_width *0.0001) # initialise x and y (relative to display ) of penguin
-    y = (display_height - h)
+    y = (display_height - height)
     startx = x
     starty = y
     vx = 5
@@ -207,15 +207,16 @@ class Enemy():
                     rocksound.play()
 
     def checkcolision(self):
-        if self.x < player.x + player.width and self.x > player.x:
-            if self.x + self.width < player.x + player.width and self.x + self.width > player.x:
-                if self.starty > player.y and self.starty < player.y + player.height or self.starty + self.height > player.y and self.starty + self.height < player.y + player.height:
-                    player.lives -= 1
-                    livedown.play()
-                    self.reset_all()
-                    player.reset()
-                    Rock.resetrocks
-                    Death()
+        if self.x < player.x + player.width and self.x > player.x or self.x + self.width < player.x + player.width and self.x + self.width > player.x:
+            #if self.x + self.width < player.x + player.width and self.x + self.width > player.x:
+            print ("x check")
+            if self.starty > player.y and self.starty < player.y + player.height or self.starty + self.height > player.y and self.starty + self.height < player.y + player.height:
+                player.lives -= 1
+                livedown.play()
+                self.reset_all()
+                player.reset()
+                Rock.resetrocks
+                Death()
                     
                     
     
@@ -360,7 +361,7 @@ class Seal(Enemy):
     width = sealPic.get_rect().width
     height = sealPic.get_rect().height
     
-    starty = display_height - h
+    starty = display_height - (height-1)
     vy = 0
     y = starty
     
