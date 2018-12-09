@@ -29,7 +29,7 @@ orange = (242,176,21)
 bright_orange = (247,210,64)
 pause = False  # required for pause function
 phase2 = False
-BOSS = True
+BOSS = False
 already_run_message = False
 epilogue = False
 
@@ -249,8 +249,8 @@ class Barrel(Enemy):
         self.y = y
         self.tx = player.x
         self.ty = player.y
-        self.startx = my_boss.x
-        self.starty = my_boss.y
+        self.startx = x
+        self.starty = y
         self.x_diff = self.tx - self.startx
         self.y_diff = self.ty - self.starty
         self.angle = math.atan2(self.y_diff, self.x_diff)
@@ -277,6 +277,7 @@ class Barrel(Enemy):
         self.y += self.changey
         self.draw()
         self.checkcolision
+        self.check_offscreen
         gameDisplay.blit(self.barrelPic,(self.x, self.y))
 
 class Boss(Enemy):
@@ -570,8 +571,8 @@ def draw_to_screen():
     player.display(player.x,player.y)
     my_bird.update()
     slow_bird.update()
-   # my_bird.move_draw_check()
-    #my_seal.move_draw_check()
+    my_bird.move_draw_check()
+    my_seal.move_draw_check()
     if phase2 == True:
         slow_bird.move_draw_check()
         slow_seal.move_draw_check()
@@ -580,7 +581,6 @@ def draw_to_screen():
         Barrel.createBarrel()
         for barrel in Barrel.barrels:
             barrel.move_draw_check()
-            barrel.check_offscreen
     
 #def checkrockcollision():
 #    global projectiles
