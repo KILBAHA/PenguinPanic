@@ -27,6 +27,7 @@ bright_blue = (0,0,255)
 orange = (242,176,21)
 bright_orange = (247,210,64)
 pause = False  # required for pause function
+phase2 = False
 BOSS = False
 already_run_message = False
 epilogue = False
@@ -164,9 +165,7 @@ class Rock():
        
        
 class Enemy():
-    
-    lives = 5
-    
+    lives = 10
     dodged = 0
     startx = display_width
     
@@ -324,6 +323,7 @@ class Boss(Enemy):
 
 class Bird(Enemy):
     
+    
     birdPic1 = pygame.image.load('Bird1.png')
     birdPic2 = pygame.image.load('Bird2.png')
     
@@ -396,11 +396,13 @@ class Text():
 Create Objects from class:
 """
 my_seal = Seal(display_width,15) # Syntax - Class has capital, object is lowercase
-slow_seal=Seal(display_width + 500,15)
 player = Penguin(Penguin.x,Penguin.y) 
 my_bird = Bird(display_width+ 300, 12)
-slow_bird = Bird(display_width + 500, 12)
 my_boss = Boss(display_width - 200, display_height - 400)
+
+slow_seal=Seal(display_width + 500,15)
+slow_bird = Bird(display_width + 500, 12)
+
 
 
 """
@@ -524,10 +526,11 @@ def draw_to_screen():
     player.display(player.x,player.y)
     my_bird.update()
     slow_bird.update()
-    slow_bird.move_draw_check()
     my_bird.move_draw_check()
     my_seal.move_draw_check()
-    slow_seal.move_draw_check()
+    if phase2 == True:
+        slow_bird.move_draw_check()
+        slow_seal.move_draw_check()
     if BOSS == True:
         my_boss.move_draw_check()
     
@@ -588,14 +591,18 @@ Create the gameloop:
 """
 
 def game_loop():
-    global pause
+    global pause, phase2
     exit = False
     soundtrack.play()
     while exit == False:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit = True  
-                
+        
+        
+        if my_seal.lives < 5 or my_bird.lives < 5:
+            phase2 = True
+        
         keys = pygame.key.get_pressed()        
         
         if keys[pygame.K_p]:
