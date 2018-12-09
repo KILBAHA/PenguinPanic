@@ -266,9 +266,7 @@ class Barrel(Enemy):
             
     def check_offscreen(self):
         for barrel in self.barrels:
-            if barrel.x < display_width and barrel.y < display_height:
-                pass
-            else:
+            if barrel.x < 0 - barrel.width or barrel.y > 600:
                 self.barrels.pop(self.barrels.index(barrel))
                 
             
@@ -276,8 +274,8 @@ class Barrel(Enemy):
         self.x += self.changex
         self.y += self.changey
         self.draw()
-        self.checkcolision
-        self.check_offscreen
+        self.checkcolision()
+        self.check_offscreen()
         gameDisplay.blit(self.barrelPic,(self.x, self.y))
 
 class Boss(Enemy):
