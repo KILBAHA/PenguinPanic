@@ -5,6 +5,7 @@ Initialisation:
 import pygame
 import time
 import random
+import math
 #Initiate pygame:
 pygame.init()
 pygame.mixer.init()
@@ -28,7 +29,7 @@ orange = (242,176,21)
 bright_orange = (247,210,64)
 pause = False  # required for pause function
 phase2 = False
-BOSS = False
+BOSS = True
 already_run_message = False
 epilogue = False
 
@@ -129,11 +130,11 @@ class Rock():
     projectiles = []
     
     def create_rock():
-     keys = pygame.key.get_pressed()        
+        keys = pygame.key.get_pressed()        
         
-     if keys[pygame.K_UP]:
-         if len(Rock.projectiles) < 1:
-             Rock.projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
+        if keys[pygame.K_RETURN]:
+            if len(Rock.projectiles) < 1:
+                Rock.projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
              
     def resetrocks(self):
         for projectile in self.projectiles:
@@ -205,7 +206,7 @@ class Enemy():
         if self.x < player.x + player.width and self.x > player.x or self.x + self.width < player.x + player.width and self.x + self.width > player.x:
             #if self.x + self.width < player.x + player.width and self.x + self.width > player.x:
             print ("x check")
-            if self.starty > player.y and self.starty < player.y + player.height or self.starty + self.height > player.y and self.starty + self.height < player.y + player.height:
+            if self.y > player.y and self.y < player.y + player.height or self.y + self.height > player.y and self.y + self.height < player.y + player.height:
                 player.lives -= 1
                 livedown.play()
                 self.reset_all()
@@ -234,7 +235,50 @@ class Enemy():
         else:
             bossmessage()
             BOSS = True
+
+class Barrel(Enemy):
+    width = 68
+    height = 68
+    barrelPic = pygame.image.load("Oil Barrel.png")
+    barrelPic = pygame.transform.scale(barrelPic,(width,height))
+    vel = 15
+    barrels = []
     
+    def __init__(self, x, y): #tx and ty are target x and target y, to allow it to be thrown at the player
+        self.x = x
+        self.y = y
+        self.tx = player.x
+        self.ty = player.y
+        self.startx = my_boss.x
+        self.starty = my_boss.y
+        self.x_diff = self.tx - self.startx
+        self.y_diff = self.ty - self.starty
+        self.angle = math.atan2(self.y_diff, self.x_diff)
+        self.changex = math.cos(self.angle) * self.vel
+        self.changey = math.sin(self.angle) * self.vel
+    
+    def draw(self):
+        gameDisplay.blit(self.barrelPic,(self.x,self.y))
+    
+    def createBarrel():
+        if len(Barrel.barrels) < 1:
+            Barrel.barrels.append(Barrel(my_boss.x + 50, my_boss.y + 50))
+            
+    def check_offscreen(self):
+        for barrel in self.barrels:
+            if barrel.x < display_width and barrel.y < display_height:
+                pass
+            else:
+                self.barrels.pop(self.barrels.index(barrel))
+                
+            
+    def move_draw_check(self):
+        self.x += self.changex
+        self.y += self.changey
+        self.draw()
+        self.checkcolision
+        gameDisplay.blit(self.barrelPic,(self.x, self.y))
+
 class Boss(Enemy):
     
     BossPic = pygame.image.load('bp_baloon.png') # variable for penguin sprite
@@ -526,13 +570,17 @@ def draw_to_screen():
     player.display(player.x,player.y)
     my_bird.update()
     slow_bird.update()
-    my_bird.move_draw_check()
-    my_seal.move_draw_check()
+   # my_bird.move_draw_check()
+    #my_seal.move_draw_check()
     if phase2 == True:
         slow_bird.move_draw_check()
         slow_seal.move_draw_check()
     if BOSS == True:
         my_boss.move_draw_check()
+        Barrel.createBarrel()
+        for barrel in Barrel.barrels:
+            barrel.move_draw_check()
+            barrel.check_offscreen
     
 #def checkrockcollision():
 #    global projectiles
