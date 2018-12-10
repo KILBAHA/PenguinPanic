@@ -206,8 +206,8 @@ class Enemy():
 #                if projectile.x < self.x + self.width and projectile.x + projectile.w < self.x + self.width:
 #                    print ("check 2")
 #                    if self.y > projectile.y and self.y < projectile.y + projectile.h or self.y + self.height > projectile.y and self.starty + self.height < projectile.y + projectile.h:
-            if self.x > projectile.x and self.x < projectile.x + projectile.w:
-                if projectile.y > self.starty or projectile.y > self.starty + self.height and projectile.y + projectile.h > self.starty or projectile.y + projectile.h > self.starty + self.height:
+            if self.x < projectile.x and self.x + self.width > projectile.x + projectile.w:
+                if projectile.y > self.y and self.y + self.width > projectile.y + projectile.h:
                     self.lives -=1   
                     Rock.resetrocks(Rock)
                     self.reset_x()    
@@ -430,7 +430,7 @@ class Seal(Enemy):
     width = sealPic.get_rect().width
     height = sealPic.get_rect().height
     
-    starty = display_height - (height+height)
+    starty = display_height - (height)
     vy = 0
     y = starty
     
