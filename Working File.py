@@ -661,12 +661,12 @@ def game_loop():
     phase2 = False
     already_run_message = False
     epilogue = False
-    my_seal = Seal(display_width,15) # Syntax - Class has capital, object is lowercase
+    my_seal = Seal(display_width,12) # Syntax - Class has capital, object is lowercase
     player = Penguin(Penguin.x,Penguin.y) 
     my_bird = Bird(display_width+ 300, 12)
     my_boss = Boss(display_width - 200, display_height - 400)
 
-    slow_seal=Seal(display_width + 500,15)
+    slow_seal=Seal(display_width + 500,10)
     slow_bird = Bird(display_width + 500, 12)
     soundtrack.play()
     while exit == False:
