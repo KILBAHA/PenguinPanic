@@ -73,7 +73,7 @@ class Penguin():
     isJump = False
     initial_jc = 16 # use to change size of jump
     JumpCount = initial_jc
-    jump_lim = 0.3 # increase to increase jump height + jump acceleration/deceleration
+    jump_lim = 0.2 # increase to increase jump height + jump acceleration/deceleration
     keys = pygame.key.get_pressed()
     lives = 5
     
@@ -336,7 +336,7 @@ class Boss(Enemy):
     
     
     def reset_x(self):
-            self.y = 0
+        self.y = 1
 
     
     def move_draw_check(self):
@@ -393,7 +393,7 @@ class Bird(Enemy):
     starty = display_height - 400
     y = starty
     
-    vy = 6
+    vy = 4
     
     def __init__(self,x,speed):
         self.x = x
@@ -666,11 +666,11 @@ def game_loop():
     epilogue = False
     my_seal = Seal(display_width,12) # Syntax - Class has capital, object is lowercase
     player = Penguin(Penguin.x,Penguin.y) 
-    my_bird = Bird(display_width+ 300, 12)
+    my_bird = Bird(display_width+ 300, 9)
     my_boss = Boss(display_width - 200, display_height - 400)
 
     slow_seal=Seal(display_width + 500,10)
-    slow_bird = Bird(display_width + 500, 12)
+    slow_bird = Bird(display_width + 500, 7)
     #soundtrack.play()
     pygame.mixer.music.play(-1)
     while exit == False:
