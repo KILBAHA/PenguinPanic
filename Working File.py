@@ -27,11 +27,7 @@ blue = (0,0,200)
 bright_blue = (0,0,255)
 orange = (242,176,21)
 bright_orange = (247,210,64)
-pause = False  # required for pause function
-phase2 = False
-BOSS = False
-already_run_message = False
-epilogue = False
+
 
 #define clock
 clock = pygame.time.Clock()
@@ -85,8 +81,10 @@ class Penguin():
     
     def move(self,iput):
         if iput == "L":
+            #if self.x< 0 and self.x < display_width - self.width:
             self.x -= self.vx
         if iput == "R":
+            #if self.x< 0 and self.x < display_width - self.width:
             self.x += self.vx
 
 
@@ -132,8 +130,8 @@ class Rock():
     def create_rock():
         keys = pygame.key.get_pressed()        
         
-        if keys[pygame.K_RETURN]:
-            if len(Rock.projectiles) < 100:
+        if keys[pygame.K_UP]:
+            if len(Rock.projectiles) < 1:
                 Rock.projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
              
     def resetrocks(self):
@@ -184,6 +182,8 @@ class Enemy():
         my_bird.reset_x()
         my_seal.reset_x()
         slow_seal.reset_x()
+        for barrel in Barrel.barrels:
+            Barrel.barrels.pop(Barrel.barrels.index(barrel))
 
 #can we bundle
 
@@ -199,6 +199,7 @@ class Enemy():
             if self.x > projectile.x and self.x < projectile.x + projectile.w:
                 if projectile.y > self.starty or projectile.y > self.starty + self.height and projectile.y + projectile.h > self.starty or projectile.y + projectile.h > self.starty + self.height:
                     self.lives -=1   
+                    Rock.resetrocks(Rock)
                     self.reset_x()    
                     rocksound.play()
 
@@ -287,7 +288,7 @@ class Boss(Enemy):
 
     BossPic = pygame.transform.scale(BossPic,(w,h)) #transform penguin sprite
     
-    lives = 10
+    lives = 3
     
     def __init__(self, x, y ):
         self.x = x
@@ -322,7 +323,8 @@ class Boss(Enemy):
     
     
     def reset_x(self):
-        self.y = 0
+            self.y = 0
+
     
     def move_draw_check(self):
         global epilogue
