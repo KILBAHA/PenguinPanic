@@ -116,13 +116,14 @@ class Penguin():
         gameDisplay.blit(text, (0,0))
         
     def jump(self):
+        #jump.play()
         if self.isJump:
                 if self.JumpCount >= -self.initial_jc:
                     neg = 1
                     if self.JumpCount < 0:
                         neg = -1
                     self.y -=(self.JumpCount**2)*self.jump_lim*neg
-                    jump.play()
+                    #jump.play()
                     self.JumpCount -= 1
                     
                     #jump.stop()
@@ -521,7 +522,7 @@ def Death():
     pygame.display.update()
     time.sleep(2)
     if player.lives == 0:
-        livedown.play()
+        #livedown.play()
         player.lives = Penguin.lives
         intro_screen()
 
@@ -586,7 +587,25 @@ def draw_to_screen():
 #                            if my_bird.starty > projectile.y and my_bird.starty < projectile.y + projectile.h or my_bird.starty + my_bird.height > projectile.y and my_bird.starty + my_bird.height < projectile.y + projectile.h:
 #                                my_bird.reset_x()
 #                                print("Hit")
+ 
+
+def instruction_screen():
+    instruction = True
+    instructionpic = pygame.image.load("Instructs fin.png")
+    
+    while instruction:
         
+       for event in pygame.event.get():
+           if event.type == pygame.QUIT:
+               pygame.quit()
+               quit()
+       
+       gameDisplay.blit(instructionpic,(0,0))
+    
+       button("Back",150,480,150,50, bright_orange, orange, intro_screen)
+    
+       pygame.display.update()
+       clock.tick(15)
 
 def intro_screen():
     intro = True
@@ -608,7 +627,7 @@ def intro_screen():
         
         button("Quit",550,450,150,50, bright_orange, orange,quitgame)
         
-        button("Instructions",350, 520, 150, 50, bright_orange, orange)
+        button("Instructions",350, 520, 150, 50, bright_orange, orange, instruction_screen)
         
         pygame.display.update()
         clock.tick(15)
@@ -671,6 +690,7 @@ def game_loop():
             player.move("R")
             
         if keys[pygame.K_SPACE]:
+            jump.play()
             player.isJump = True
         player.jump()
         
