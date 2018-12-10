@@ -87,11 +87,15 @@ class Penguin():
     
     def move(self,iput):
         if iput == "L":
-            #if self.x< 0 and self.x < display_width - self.width:
-            self.x -= self.vx
+            if self.x > self.vx:
+                self.x -= self.vx
+            else:
+                pass
         if iput == "R":
-            #if self.x< 0 and self.x < display_width - self.width:
-            self.x += self.vx
+            if self.x < display_width - self.width:
+                self.x += self.vx
+            else:
+                pass
 
 
     
