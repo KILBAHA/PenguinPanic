@@ -34,6 +34,8 @@ deathmessage_2 = pygame.image.load("Death Message 2.png")
 deathmessage_2 = pygame.transform.scale(deathmessage_2,(display_width,display_height))
 deathmessage_3 = pygame.image.load("Death message 3.png")
 deathmessage_3 = pygame.transform.scale(deathmessage_3,(display_width,display_height))
+pause_screen = pygame.image.load("Pause Screen.png")
+pause_screen = pygame.transform.scale(pause_screen,(display_width,display_height))
 
 #define clock
 clock = pygame.time.Clock()
@@ -222,7 +224,7 @@ class Enemy():
                 livedown.play()
                 self.reset_all()
                 player.reset()
-                Rock.resetrocks
+                Rock.resetrocks(Rock)
                 Death()
                     
                     
@@ -546,12 +548,7 @@ def paused():
         Create a dedicated pause screen to blit:
         """
         
-        gameDisplay.fill(white)
-        
-        largeText = pygame.font.Font ('freesansbold.ttf', 100)
-        TextSurf, TextRect = text_objects("Paused", largeText)
-        TextRect.center = ((display_width * 0.5),(display_height * 0.5))
-        gameDisplay.blit(TextSurf, TextRect)
+        gameDisplay.blit(pause_screen,(0,0))
         
         button("Continue",150,450,150,50,bright_orange,orange,unpause) # x,y,w,h,ac,ic,fn
         
