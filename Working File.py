@@ -133,7 +133,7 @@ class Rock():
         keys = pygame.key.get_pressed()        
         
         if keys[pygame.K_RETURN]:
-            if len(Rock.projectiles) < 1:
+            if len(Rock.projectiles) < 100:
                 Rock.projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
              
     def resetrocks(self):
@@ -315,18 +315,17 @@ class Boss(Enemy):
 #                    self.lives -=1       
 #                    rocksound.play()
  
-    def reset_x(self):
-        pass
     
     
     def draw(self):
         gameDisplay.blit(self.BossPic,(self.x,self.y))
     
     
-#    def checkrockcollision(self):
-#        pass
+    def reset_x(self):
+        self.y = 0
     
     def move_draw_check(self):
+        global epilogue
         
 #        self.y += self.vy
 #        self.x += self.vx
@@ -353,15 +352,12 @@ class Boss(Enemy):
         if self.x <= display_width - 200:
             self.vx = -self.vx
         
-        
-        self.draw()
-        self.checkcolision()
-        self.checkoffscreen()
-        self.checkrockcollision()
-        
-    def epilogue(self):
-        global epilogue
-        if self.lives <= 0:
+        if self.lives > 0:
+            self.draw()
+            self.checkcolision()
+            self.checkoffscreen()
+            self.checkrockcollision()
+        else:
             epilogue = True
 
 class Bird(Enemy):
@@ -422,7 +418,7 @@ class Seal(Enemy):
     width = sealPic.get_rect().width
     height = sealPic.get_rect().height
     
-    starty = display_height - (height-1)
+    starty = display_height - (height+height)
     vy = 0
     y = starty
     
@@ -438,13 +434,6 @@ class Text():
 """
 Create Objects from class:
 """
-my_seal = Seal(display_width,15) # Syntax - Class has capital, object is lowercase
-player = Penguin(Penguin.x,Penguin.y) 
-my_bird = Bird(display_width+ 300, 12)
-my_boss = Boss(display_width - 200, display_height - 400)
-
-slow_seal=Seal(display_width + 500,15)
-slow_bird = Bird(display_width + 500, 12)
 
 
 
@@ -629,6 +618,7 @@ def epilogue_screen():
         message_display("The battlefield is littered with the corpses of ...")
         pygame.display.update()
         time.sleep(2)
+        intro_screen()
 
 
 
@@ -637,8 +627,19 @@ Create the gameloop:
 """
 
 def game_loop():
-    global pause, phase2
+    global pause, phase2, my_seal, player, my_bird, my_boss, slow_seal, slow_bird, BOSS, phase2, already_run_message, epilogue
+    BOSS = False
     exit = False
+    phase2 = False
+    already_run_message = False
+    epilogue = False
+    my_seal = Seal(display_width,15) # Syntax - Class has capital, object is lowercase
+    player = Penguin(Penguin.x,Penguin.y) 
+    my_bird = Bird(display_width+ 300, 12)
+    my_boss = Boss(display_width - 200, display_height - 400)
+
+    slow_seal=Seal(display_width + 500,15)
+    slow_bird = Bird(display_width + 500, 12)
     soundtrack.play()
     while exit == False:
         for event in pygame.event.get():
