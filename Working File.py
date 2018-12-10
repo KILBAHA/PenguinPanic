@@ -602,7 +602,7 @@ def instruction_screen():
        
        gameDisplay.blit(instructionpic,(0,0))
     
-       button("Back",150,480,150,50, bright_orange, orange, intro_screen)
+       button("Back",50,510,150,50, bright_orange, orange, intro_screen)
     
        pygame.display.update()
        clock.tick(15)
