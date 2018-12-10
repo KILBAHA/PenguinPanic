@@ -586,7 +586,21 @@ def draw_to_screen():
 #                            if my_bird.starty > projectile.y and my_bird.starty < projectile.y + projectile.h or my_bird.starty + my_bird.height > projectile.y and my_bird.starty + my_bird.height < projectile.y + projectile.h:
 #                                my_bird.reset_x()
 #                                print("Hit")
-        
+ 
+
+def instruction_screen():
+    instruction = True
+    instructionpic = pygame.image.load("Instructs fin.png")
+    
+    while instruction:
+       for event in pygame.event.get():
+           if event.type == pygame.QUIT:
+               pygame.quit()
+               quit()
+               
+    gameDisplay.blit(instructionpic,(0,0))
+    
+    button("Back",150,450,150,50, bright_orange, orange, intro_screen)
 
 def intro_screen():
     intro = True
@@ -608,7 +622,7 @@ def intro_screen():
         
         button("Quit",550,450,150,50, bright_orange, orange,quitgame)
         
-        button("Instructions",350, 520, 150, 50, bright_orange, orange)
+        button("Instructions",350, 520, 150, 50, bright_orange, orange, instruction_screen)
         
         pygame.display.update()
         clock.tick(15)
