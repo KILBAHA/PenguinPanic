@@ -28,6 +28,12 @@ bright_blue = (0,0,255)
 orange = (242,176,21)
 bright_orange = (247,210,64)
 
+deathmessage_1 = pygame.image.load("Death Message 1.png")
+deathmessage_1 = pygame.transform.scale(deathmessage_1,(display_width,display_height))
+deathmessage_2 = pygame.image.load("Death Message 2.png")
+deathmessage_2 = pygame.transform.scale(deathmessage_2,(display_width,display_height))
+deathmessage_3 = pygame.image.load("Death message 3.png")
+deathmessage_3 = pygame.transform.scale(deathmessage_3,(display_width,display_height))
 
 #define clock
 clock = pygame.time.Clock()
@@ -81,11 +87,15 @@ class Penguin():
     
     def move(self,iput):
         if iput == "L":
-            #if self.x< 0 and self.x < display_width - self.width:
-            self.x -= self.vx
+            if self.x > self.vx:
+                self.x -= self.vx
+            else:
+                pass
         if iput == "R":
-            #if self.x< 0 and self.x < display_width - self.width:
-            self.x += self.vx
+            if self.x < display_width - self.width:
+                self.x += self.vx
+            else:
+                pass
 
 
     
@@ -196,8 +206,8 @@ class Enemy():
 #                if projectile.x < self.x + self.width and projectile.x + projectile.w < self.x + self.width:
 #                    print ("check 2")
 #                    if self.y > projectile.y and self.y < projectile.y + projectile.h or self.y + self.height > projectile.y and self.starty + self.height < projectile.y + projectile.h:
-            if self.x > projectile.x and self.x < projectile.x + projectile.w:
-                if projectile.y > self.starty or projectile.y > self.starty + self.height and projectile.y + projectile.h > self.starty or projectile.y + projectile.h > self.starty + self.height:
+            if self.x < projectile.x and self.x + self.width > projectile.x + projectile.w:
+                if projectile.y > self.y and self.y + self.width > projectile.y + projectile.h:
                     self.lives -=1   
                     Rock.resetrocks(Rock)
                     self.reset_x()    
@@ -420,7 +430,7 @@ class Seal(Enemy):
     width = sealPic.get_rect().width
     height = sealPic.get_rect().height
     
-    starty = display_height - (height+height)
+    starty = display_height - (height)
     vy = 0
     y = starty
     
@@ -501,11 +511,11 @@ def Death():
                 break
 
     if player.lives >=2:
-        message_display("You died, {} lives remaining".format(player.lives))
+        gameDisplay.blit(deathmessage_1,(0,0))
     elif player.lives == 1:
-        message_display("You died, 1 life remaining")
+        gameDisplay.blit(deathmessage_2,(0,0))
     else:
-        message_display("Game Over")
+        gameDisplay.blit(deathmessage_3,(0,0))
     pygame.display.update()
     time.sleep(2)
     if player.lives == 0:
