@@ -459,7 +459,7 @@ Import Audio
 rocksound = pygame.mixer.Sound("rocksound.wav")
 livedown = pygame.mixer.Sound("noot noot.wav")
 jump = pygame.mixer.Sound("jump.wav")
-soundtrack = pygame.mixer.Sound("dafeelin_loop.wav")
+pygame.mixer.music.load("dafeelin_loop.wav")
 
 def quitgame():
     pygame.quit()
@@ -530,6 +530,7 @@ def Death():
 
 def unpause():
     global pause
+    pygame.mixer.music.unpause()
     pause = False
  
 def set_paused():
@@ -539,6 +540,7 @@ def set_paused():
 
 def paused():
     global pause
+    pygame.mixer.music.pause()
      
     while pause:
         for event in pygame.event.get():
@@ -609,6 +611,7 @@ def instruction_screen():
 
 def intro_screen():
     intro = True
+    pygame.mixer.music.stop()
     intropic = pygame.image.load("Intro Screen.png")
     
     while intro:
@@ -668,7 +671,8 @@ def game_loop():
 
     slow_seal=Seal(display_width + 500,15)
     slow_bird = Bird(display_width + 500, 12)
-    soundtrack.play()
+    #soundtrack.play()
+    pygame.mixer.music.play(-1)
     while exit == False:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
