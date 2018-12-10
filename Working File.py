@@ -28,6 +28,12 @@ bright_blue = (0,0,255)
 orange = (242,176,21)
 bright_orange = (247,210,64)
 
+deathmessage_1 = pygame.image.load("Death Message 1.png")
+deathmessage_1 = pygame.transform.scale(deathmessage_1,(display_width,display_height))
+deathmessage_2 = pygame.image.load("Death Message 2.png")
+deathmessage_2 = pygame.transform.scale(deathmessage_2,(display_width,display_height))
+deathmessage_3 = pygame.image.load("Death message 3.png")
+deathmessage_3 = pygame.transform.scale(deathmessage_3,(display_width,display_height))
 
 #define clock
 clock = pygame.time.Clock()
@@ -501,11 +507,11 @@ def Death():
                 break
 
     if player.lives >=2:
-        message_display("You died, {} lives remaining".format(player.lives))
+        gameDisplay.blit(deathmessage_1,(0,0))
     elif player.lives == 1:
-        message_display("You died, 1 life remaining")
+        gameDisplay.blit(deathmessage_2,(0,0))
     else:
-        message_display("Game Over")
+        gameDisplay.blit(deathmessage_3,(0,0))
     pygame.display.update()
     time.sleep(2)
     if player.lives == 0:
