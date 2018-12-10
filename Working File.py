@@ -71,9 +71,9 @@ class Penguin():
     height = penguinPic.get_rect().height
 
     isJump = False
-    initial_jc = 13 # use to change size of jump
+    initial_jc = 16 # use to change size of jump
     JumpCount = initial_jc
-    jump_lim = 0.6 # increase to increase jump height + jump acceleration/deceleration
+    jump_lim = 0.3 # increase to increase jump height + jump acceleration/deceleration
     keys = pygame.key.get_pressed()
     lives = 5
     
