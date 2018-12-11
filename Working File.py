@@ -81,7 +81,7 @@ class Penguin():
     y = (display_height - (height-3))
     startx = x
     starty = y
-    vx = 10
+    vx = 15
         
     def __init__(self,x,y):
         self.x = x
@@ -144,7 +144,7 @@ class Rock():
         keys = pygame.key.get_pressed()        
         
         if keys[pygame.K_UP]:
-            if len(Rock.projectiles) < 1:
+            if len(Rock.projectiles) < 3:
                 Rock.projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
              
     def resetrocks(self):
@@ -669,8 +669,8 @@ def game_loop():
     my_bird = Bird(display_width+ 300, 9)
     my_boss = Boss(display_width - 200, display_height - 400)
 
-    slow_seal=Seal(display_width + 500,10)
-    slow_bird = Bird(display_width + 500, 7)
+    slow_seal=Seal(display_width + 1000,10)
+    slow_bird = Bird(display_width + 700, 7)
     #soundtrack.play()
     pygame.mixer.music.play(-1)
     while exit == False:
