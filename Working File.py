@@ -28,6 +28,20 @@ bright_blue = (0,0,255)
 orange = (242,176,21)
 bright_orange = (247,210,64)
 
+epilogue_0 = pygame.image.load("epilogue_0.png").convert()
+epilogue_0 = pygame.transform.scale(epilogue_0, (display_width, display_height))
+epilogue_1 = pygame.image.load("epilogue_1.png").convert()
+epilogue_1 = pygame.transform.scale(epilogue_1, (display_width, display_height))
+epilogue_2 = pygame.image.load("epilogue_2.png").convert()
+epilogue_2 = pygame.transform.scale(epilogue_2, (display_width, display_height))
+epilogue_3 = pygame.image.load("epilogue_3.png").convert()
+epilogue_3 = pygame.transform.scale(epilogue_3, (display_width, display_height))
+epilogue_4 = pygame.image.load("epilogue_4.png").convert()
+epilogue_4 = pygame.transform.scale(epilogue_4, (display_width, display_height))
+epilogue_5 = pygame.image.load("epilogue_5.png").convert()
+epilogue_5 = pygame.transform.scale(epilogue_5, (display_width, display_height))
+
+
 deathmessage_1 = pygame.image.load("Death Message 1.png")
 deathmessage_1 = pygame.transform.scale(deathmessage_1,(display_width,display_height))
 deathmessage_2 = pygame.image.load("Death Message 2.png")
@@ -144,7 +158,7 @@ class Rock():
         keys = pygame.key.get_pressed()        
         
         if keys[pygame.K_UP]:
-            if len(Rock.projectiles) < 3:
+            if len(Rock.projectiles) < 100: #set this to 3
                 Rock.projectiles.append(Rock(player.x +75, player.y +75, 100, 13))
              
     def resetrocks(self):
@@ -636,17 +650,19 @@ def intro_screen():
         clock.tick(15)
 
 
-def epilogue_screen():    
-        gameDisplay.blit(Background.bkgd,(0,0))
-        message_display("You have defeated the evil oil baron")
+def epilogue_screen():
+        global epilogue_0, epilogue_1, epilogue_2, epilogue_3, epilogue_4, epilogue_5  
+        pygame.mixer.music.stop()
+        gameDisplay.blit(epilogue_1,(0,0))
         pygame.display.update()
         time.sleep(2)
-        gameDisplay.blit(Background.bkgd,(0,0))
-        message_display("But at what cost?")
+        gameDisplay.blit(epilogue_2,(0,0))
         pygame.display.update()
         time.sleep(2)
-        gameDisplay.blit(Background.bkgd,(0,0))
-        message_display("The battlefield is littered with the corpses of ...")
+        gameDisplay.blit(epilogue_4,(0,0))
+        pygame.display.update()
+        time.sleep(2)
+        gameDisplay.blit(epilogue_5,(0,0))
         pygame.display.update()
         time.sleep(2)
         intro_screen()
