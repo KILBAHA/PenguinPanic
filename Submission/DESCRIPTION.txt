@@ -1,0 +1,11 @@
+Game Description
+Game Name: Penguin Panic!
+Group: Yusuf Ahmed, Lydia Clare Leather, Richard Sears.
+Group Name: Geppetti
+
+You are a vengeful penguin that must traverse arctic tundra risking life and limb to take revenge against the Evil Oil Barron. But be warned, your path is obstructed by angry seals and birds, you must protect yourself using your combined expertise in both elementary trigonometry and rock throwing (you didn’t go to rock-throwing school for 5 long years for nothing!). But beware, anger begets anger and the more seals and birds you kill the more will come to take their place. When you have perfected your skills you will be strong enough to take on the Oil Barron Man on Man, but watch out for his oil barrels!
+Controls:
+Spacebar – Jump
+Left/Right Arrow keys – Move back/forward
+Up Arrow Key – Throw Rocks
+P - Pause
