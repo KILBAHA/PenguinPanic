@@ -49,6 +49,8 @@ deathmessage_3 = pygame.transform.scale(deathmessage_3,(display_width,display_he
 pause_screen = pygame.image.load("Pause Screen.png")
 pause_screen = pygame.transform.scale(pause_screen,(display_width,display_height))
 
+rock_count = 0
+
 
 #define clock
 clock = pygame.time.Clock()
