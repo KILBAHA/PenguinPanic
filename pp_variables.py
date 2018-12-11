@@ -26,6 +26,11 @@ bright_blue = (0,0,255)
 orange = (242,176,21)
 bright_orange = (247,210,64)
 
+
+"""
+Load and Transform Epilogue images
+"""
+
 epilogue_0 = pygame.image.load("epilogue_0.png").convert()
 epilogue_0 = pygame.transform.scale(epilogue_0, (display_width, display_height))
 epilogue_1 = pygame.image.load("epilogue_1.png").convert()
@@ -39,6 +44,9 @@ epilogue_4 = pygame.transform.scale(epilogue_4, (display_width, display_height))
 epilogue_5 = pygame.image.load("epilogue_5.png").convert()
 epilogue_5 = pygame.transform.scale(epilogue_5, (display_width, display_height))
 
+"""
+Load and Transform Death images
+"""
 
 deathmessage_1 = pygame.image.load("Death Message 1.png")
 deathmessage_1 = pygame.transform.scale(deathmessage_1,(display_width,display_height))
@@ -49,11 +57,15 @@ deathmessage_3 = pygame.transform.scale(deathmessage_3,(display_width,display_he
 pause_screen = pygame.image.load("Pause Screen.png")
 pause_screen = pygame.transform.scale(pause_screen,(display_width,display_height))
 
-rock_count = 0
+rock_count = 0 # intialise rock_count
 
 
 #define clock
 clock = pygame.time.Clock()
+
+"""
+Import Audio:
+"""
 
 rocksound = pygame.mixer.Sound("rocksound.wav")
 livedown = pygame.mixer.Sound("noot noot.wav")
